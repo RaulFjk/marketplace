@@ -1,7 +1,10 @@
 import React from 'react';
 import backG from '../header-wall.jpg';
+import { connect } from 'react-redux';
+import { signIn } from '../store/actions/authActions';
+import { Redirect } from 'react-router';
 
-export default class SignIn extends React.Component {
+class SignIn extends React.Component {
 
     state = {
         email: '',
@@ -17,10 +20,12 @@ export default class SignIn extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log(this.state);
+        this.props.signIn(this.state);
     }
 
     render() {
+        const { auth } = this.props;
+        if(auth.uid) return <Redirect to='/home' />;
         return (
             <div className="grid min-h-screen place-items-center bg-fixed  bg-center bg-cover bg-no-repeat" style= {{ backgroundImage: `url('${backG}')` }}>
                 <div className="w-11/12 p-12 bg-blue-600 rounded-lg shadow-xl bg-transparent bg-opacity-60 sm:w-8/12 md:w-1/2 lg:w-5/12">
@@ -40,3 +45,19 @@ export default class SignIn extends React.Component {
     }
 
 }
+
+const mapStateToProps = (state) => {
+    return {
+        authError: state.auth.authError,
+        auth: state.firebase.auth
+    };
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        signIn: (creds) => dispatch(signIn(creds))
+    };
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

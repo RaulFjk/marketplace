@@ -4,7 +4,7 @@ import 'firebase/auth';
 
 
 //Initialize Firebase
-var firebaseConfig = {
+var config = {
     apiKey: "AIzaSyBnP_MqsLUA4JapTTrYaNHEamjEYRe60RM",
     authDomain: "ubbmarketplace.firebaseapp.com",
     projectId: "ubbmarketplace",
@@ -15,7 +15,7 @@ var firebaseConfig = {
   };
 
   // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
+  firebase.initializeApp(config);
   firebase.firestore().settings({ timestampsInSnapshots: true });
 
   export default firebase;

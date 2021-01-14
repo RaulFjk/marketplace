@@ -7,22 +7,26 @@ import FilterBar from './FilterBar';
 import Dropdown from 'react-dropdown';
 import SignedInLinks from './SignedInLinks';
 import SignedOutLinks from './SignedOutLinks';
+import { connect } from 'react-redux';
 
-export default class Navbar extends React.Component {
-    state = {
-        on: false
-    }
+const Navbar = (props) => {
+    const { auth } = props;
+    console.log(auth);
+    // state = {
+    //     on: false
+    // }
 
-    toggle = () => {
+    // toggle = () => {
         
-        this.setState({
-            on: !this.state.on
-        })
-    }
+    //     this.setState({
+    //         on: !this.state.on
+    //     })
+    // }
 
-    render () {
         var  options = ['Job, Internship, Project'];
         var defaultOption = options[0];
+        //if uid exists then user exists and is logged in => navbar shows SignedIn Links else SignedOut Links
+        const links = auth.uid ? <SignedInLinks /> : <SignedOutLinks />;
         return(
             <nav id="header" className="w-full flex flex-wrap z-30 top-10 py-1 bg-blue-800 shadow-2xl justify-between pt-2" >
                 <div className='flex my-2'>
@@ -48,13 +52,21 @@ export default class Navbar extends React.Component {
                         <button className="bg-transparent text-white  px-4 py-1 rounded border border-gray-300  mx-2 -2 hover:bg-gray-100 hover:text-gray-700">Sign in</button>
                         <button className="bg-red-600 text-white  px-4 py-1 rounded  hover:bg-blue-500 mx-2 hover:text-gray-100">Sign up</button>    
                     </div> */}
-                    <SignedInLinks />
-                    {/* <SignedOutLinks /> */}
+                    {/* <SignedInLinks />
+                    <SignedOutLinks /> */}
+                    {links}
                 </div>
             </nav>
             
         );
-    }
-
 }
+
+const mapStateToProps = (state) => {
+    console.log(state);
+    return {
+        auth: state.firebase.auth
+    };
+};
+
+export default connect(mapStateToProps)(Navbar);
 

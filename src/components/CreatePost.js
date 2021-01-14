@@ -1,12 +1,17 @@
 import React from 'react';
 import background from '../jobBack.jpg';
 import { connect } from 'react-redux';
-import { createPost } from '../store/actions/jobsActions';
+import { createPost } from '../store/actions/postsActions';
+import { Redirect } from 'react-router';
 
 class CreatePost extends React.Component {
 
     state = {
-        title : ''
+        title : '',
+        category : '',
+        duration : 0,
+        location : '',
+        role : '' 
     }
 
     handleChange = (e) => {
@@ -17,11 +22,16 @@ class CreatePost extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
+        console.log(this.state);
         // We pass the post we want to create which is the state of the component after we submit the form
         this.props.createPost(this.state);
     }
 
     render() {
+        const { auth } = this.props;
+
+        if(!auth.uid) return <Redirect to='/signin' />
+
         return(
             <div>
                 {/* Create title and description div */}
@@ -80,17 +90,20 @@ class CreatePost extends React.Component {
                                 </div>
                                 <div className='mt-2'>
                                     <label className='block text-sm text-gray-00'>Location</label>
-                                    <input className='w-full px-5 py-1 text-gray-700 bg-gray-200 rounded' placeholder='Location' />
+                                    <input className='w-full px-5 py-1 text-gray-700 bg-gray-200 rounded' onChange={this.handleChange} id="location" placeholder='Location' />
                                 </div>
                                 <div className='mt-8'>
-                                    <label className='block text-sm text-gray-00'>Job Type</label>
-                                    <input className='w-full px-5 py-1 text-gray-700 bg-gray-200 rounded' placeholder='Job Type' />
+                                    <label className='block text-sm text-gray-00'>Role</label>
+                                    <input className='w-full px-5 py-1 text-gray-700 bg-gray-200 rounded' onChange={this.handleChange} id="role" placeholder='Role' />
                                 </div>
                                 <div className='mt-2'>
-                                    <label className='block text-sm text-gray-00'>Job Tags</label>
-                                    <input className='w-full px-5 py-1 text-gray-700 bg-gray-200 rounded' placeholder='Job Tags' />
+                                    <label className='block text-sm text-gray-00'>Duration</label>
+                                    <input className='w-full px-5 py-1 text-gray-700 bg-gray-200 rounded' onChange={this.handleChange} id="duration" placeholder='Duration' />
                                 </div>
-
+                                <div className='mt-2'>
+                                    <label className='block text-sm text-gray-00'>Category</label>
+                                    <input className='w-full px-5 py-1 text-gray-700 bg-gray-200 rounded' onChange={this.handleChange} id="category" placeholder='Category' />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -102,10 +115,16 @@ class CreatePost extends React.Component {
     }
 
 }
+
+const mapStateToProps = (state) => {
+    return {
+        auth: state.firebase.auth
+    };
+}
 const mapDispatchToProps = (dispatch) => {
     return {
         createPost: (post) => dispatch(createPost(post))
     };
 };
 
-export default connect(null, mapDispatchToProps)(CreatePost);
+export default connect(mapStateToProps, mapDispatchToProps)(CreatePost);

@@ -1,11 +1,20 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
 import background from '../jobBack.jpg';
 import jobLogo from '../insure.svg'
 
-export default class JobPost extends React.Component {
 
-    render() {
-        return(
+const JobPost = (props) => {
+
+    const { post, auth } = props;
+
+    if(!auth.uid){
+        return <Redirect to='/signin' />;
+    }else if(post) {
+    return (
             <div>
                 {/* Job title and description div */}
                 <div className='bg-cover bg-center' style= {{ backgroundImage: `url('${background}')` }}>
@@ -42,7 +51,7 @@ export default class JobPost extends React.Component {
                         </div>
                     </div>
                     {/* Job Overview card on the right side with Job Description tags */}
-                    <div class='shadow-xl ml-10 mr-20 rounded-lg border-2 h-auto mb-4 mt-16'>
+                    <div className='shadow-xl ml-10 mr-20 rounded-lg border-2 h-auto mb-4 mt-16'>
                         <div className='border-b-2' >
                             <div className='py-4 ml-6'>
                                 <span className='text-xl font-semibold'>Job Overview</span>
@@ -65,7 +74,7 @@ export default class JobPost extends React.Component {
                                         fill="none"
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
-                                        class="h-5 w-5">
+                                        className="h-5 w-5">
 						        <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
 					            </svg>
                                <h1 className='ml-2 font-semibold'>Posted on</h1>
@@ -83,7 +92,7 @@ export default class JobPost extends React.Component {
                                         fill="none"
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
-                                        class="h-5 w-5">
+                                        className="h-5 w-5">
                                     <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                     <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                     </svg>
@@ -102,7 +111,7 @@ export default class JobPost extends React.Component {
                                         fill="none"
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
-                                        class="h-5 w-5">
+                                        className="h-5 w-5">
                                 <path strokeLinecap="round" strokeLinejoin="round"
                                  strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
@@ -121,7 +130,7 @@ export default class JobPost extends React.Component {
                                         fill="none"
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
-                                        class="h-5 w-5">
+                                        className="h-5 w-5">
                                     <path strokeLinecap="round" strokeLinejoin="round" 
                                     strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0
                                      01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
@@ -140,6 +149,42 @@ export default class JobPost extends React.Component {
                 </div>
             </div>
            
-        );
+        ); 
+    } else {
+            return (
+                <div className="container center">
+                    Posts are loading...
+                </div>
+            );
+        }
+    
+}
+
+const mapStateToProps = (state, ownProps) => {
+    // console.log(state);
+    // ownProps is the props of this component before we attache anything else to it ( before the return statement )
+    const id = ownProps.match.params.id;
+    const posts = state.firestore.data.posts;
+    const companies = state.firestore.ordered.companies;
+    //if posts exist than i want the post with the desired id from ownProps / Else null
+    const post = posts ? posts[id] : null;
+    
+
+    //     //Save company name
+        const comp = posts ? (companies ? companies.filter((com) => com.name === posts[id].company ) : null) : null;
+        const company = comp ? comp[0] : null;
+        console.log(comp);
+    
+
+
+    return {
+        post: post,
+        company: company,
+        auth: state.firebase.auth
     }
 }
+
+export default compose(
+    connect(mapStateToProps),
+    firestoreConnect(["posts","companies"])
+)(JobPost);

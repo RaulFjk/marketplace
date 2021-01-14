@@ -1,7 +1,9 @@
 import React from 'react';
 import { NavLink, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { signOut } from '../store/actions/authActions';
 
-const SignedInLinks = () => {
+const SignedInLinks = (props) => {
 
     return (   
         <div className='flex my-2'>
@@ -23,7 +25,7 @@ const SignedInLinks = () => {
                         <NavLink className="bg-red-600 text-white px-5 py-2 rounded  hover:bg-blue-500 mx-2 hover:text-gray-100" to='/createPost'>Create Post</NavLink>
                     </li>
                     <li>
-                        <NavLink className="bg-transparent text-white px-5 py-2  rounded border border-gray-300  mx-2 -2 hover:bg-gray-100 hover:text-gray-700" to='/signout'>Sign Out</NavLink>
+                        <a onClick={props.signOut} className="bg-transparent text-white px-5 py-2  rounded border border-gray-300  mx-2 -2 hover:bg-gray-100 hover:text-gray-700" >Sign Out</a>
                     </li>
                 </ul>
             </div>
@@ -39,4 +41,10 @@ const SignedInLinks = () => {
 
 }
 
-export default withRouter(SignedInLinks);
+const mapDispatchToProps = (dispatch) => {
+    return {
+      signOut: () => dispatch(signOut())
+    };
+}
+
+export default connect(null,mapDispatchToProps)(SignedInLinks);
