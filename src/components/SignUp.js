@@ -2,17 +2,33 @@ import React from 'react';
 import backG from '../header-wall.jpg';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { signUp } from '../store/actions/authActions';
 
 class SignUp extends React.Component {
 
+    state = {
+        email: '',
+        firstName: '',
+        lastName: '',
+        password: '',
+        role: ''           
+    }
+
+    handleChange = (e) => {
+        console.log(e.target.id);
+        this.setState({
+            [e.target.id] : e.target.value
+        })
+    }
+
+    handleSubmbit = (e) => {
+        e.preventDefault();
+        this.props.signUp(this.state);
+    }
+
+
 render() {
     const { auth } = this.props;
-
-    const options = [
-        'one', 'two', 'three'
-      ];
-
-    const defaultOption = options[0];
 
     if(auth.uid) return <Redirect to='/home' />;
     return(
@@ -34,13 +50,13 @@ render() {
                     </div>
                     <div className="mt-2">
                         <label className="block text-base font-semibold text-dark" for="passowrd">Password</label>
-                        <input className="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" id="passowrd" onChange={this.handleChange} type="password" required=""  aria-label="Password"/>
+                        <input className="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" id="password" onChange={this.handleChange} type="password" required=""  aria-label="Password"/>
                     </div>
                     <div className="mt-2">
                         <label className="block text-base font-semibold text-dark" for="role">Member Type(Role)</label>
-                        <select className="w-full px-2 py-2 text-gray-700 bg-gray-200 rounded">
-                            <option value="grapefruit">Student</option>
-                            <option value="lime">Company</option>
+                        <select className="w-full px-2 py-2 text-gray-700 bg-gray-200 rounded" id="role" onChange={this.handleChange} >
+                            <option value="student">Student</option>
+                            <option value="company">Company</option>
                         </select>
                     </div>
                     <button type="submit" className="w-full py-3 mt-6 font-medium tracking-widest rounded-md text-white uppercase bg-blue-800 shadow-lg focus:outline-none hover:bg-gray-900 hover:shadow-none">
@@ -59,4 +75,11 @@ const mapStateToProps = (state) => {
         auth: state.firebase.auth
     };
 };
-export default connect(mapStateToProps)(SignUp);
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        signUp: (newUser) => dispatch(signUp(newUser))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

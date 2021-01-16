@@ -32,6 +32,7 @@ class CreatePost extends React.Component {
 
         if(!auth.uid) return <Redirect to='/signin' />
 
+
         return(
             <div>
                 {/* Create title and description div */}
