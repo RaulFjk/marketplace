@@ -9,7 +9,8 @@ import SignUp from './components/SignUp';
 import JobPost from './components/JobPost';
 import CreatePost from './components/CreatePost';
 import Home from './components/Home';
-
+import Landing from './components/LandingPage';
+import LandingPage from './components/LandingPage';
 
 function App() {
 
@@ -21,7 +22,7 @@ function App() {
           <Navbar />
         </div>
         <Switch>
-          <Route exact path='/' component={Home}/>
+          <Route exact path='/' component={LandingPage}/>
           <Route path='/home' component={Home}/>
           <Route path='/signin' component={SignIn}/>
           <Route path='/signup'  component={SignUp}/>

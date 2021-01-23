@@ -32,12 +32,21 @@ export const signUp = (newUser) => {
             newUser.email,
             newUser.password
         ).then((resp) => {
+            if (newUser.company) {
+                return firestore.collection('users').doc(resp.user.uid).set({
+                    firstName: newUser.firstName,
+                    lastName: newUser.lastName,
+                    role:  newUser.role,
+                    company: newUser.company,
+                    initials: newUser.firstName[0] + newUser.lastName[0]
+                });
+            } else {
             return firestore.collection('users').doc(resp.user.uid).set({
                 firstName: newUser.firstName,
                 lastName: newUser.lastName,
                 role:  newUser.role,
                 initials: newUser.firstName[0] + newUser.lastName[0]
-            });
+            }); }
         }).then(() => {
             dispatch({ type: 'SIGNUP_SUCCESS' })
         }).catch(err => {

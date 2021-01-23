@@ -1,5 +1,6 @@
 const initState = {
-    posts: []
+    companies: [],
+    
 };
 
 const companiesReducer = (state = initState, action) => {

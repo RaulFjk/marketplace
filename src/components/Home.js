@@ -107,7 +107,7 @@ class Home extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-   console.log(state);
+//    console.log(state);
     return {
         posts: state.firestore.ordered.posts || state.post.posts,
         auth: state.firebase.auth

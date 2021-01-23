@@ -33,7 +33,7 @@ const Navbar = (props) => {
                     <div className="flex px-8 ">
                         <div className="hidden md:flex md:items-center md:w-auto w-full order-3 md:order-1" id="menu">
                                 <img className="w-12 h-12 bg-white ml-auto mr-2 rounded-full" src={ubbAvatar} />
-                                <span className='mr-1 text-xl text-gray-400 mb-1'>UBB</span>
+                                <span className='mr-1 text-xl text-red-600 mb-1 font-bold '>UBB</span>
                                 <span className='text-xl text-blue-400 mb-1'>Marketplace</span>
                         </div>
                     </div>
