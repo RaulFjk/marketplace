@@ -5,6 +5,8 @@ import categoriesReducer from './categoriesReducer';
 import { combineReducers } from 'redux';
 import { firestoreReducer } from 'redux-firestore';
 import { firebaseReducer } from 'react-redux-firebase';
+import classificationsReducer from './classificationsReducer';
+import techonologiesReducer from './technologiesReducer';
 
 
 const rootReducer = combineReducers({
@@ -12,6 +14,8 @@ const rootReducer = combineReducers({
     post: postsReducer,
     company: companiesReducer,
     category: categoriesReducer,
+    classification: classificationsReducer,
+    technology: techonologiesReducer,
     firestore: firestoreReducer,
     firebase: firebaseReducer
 });

@@ -56,8 +56,8 @@ class Home extends React.Component {
     // filteredJobs = jobs.filter(filterFunc);
 
     render(){
-
-        const{ posts, auth } = this.props;
+        
+        const{ posts, auth, location } = this.props;
         if (!auth.uid){
             return <Redirect to ='/signin' />;
         }
@@ -69,7 +69,7 @@ class Home extends React.Component {
                 </div>
                 <div className='flex ml-10'>
                     <span className='text-3xl text-red-500 py-4 mr-1'>All</span>
-                    <span className='text-3xl text-gray-700 py-4 '>posts</span>
+                    <span className='text-3xl text-gray-700 py-4 '>Posts</span>
                 </div>
                 {/* Tags Filter above the jobs ---------->>>> must be adapted <<<<<<<<<<<<<<<<<------------------------- */}
 
@@ -96,6 +96,7 @@ class Home extends React.Component {
                         <JobBoardComponent
                         post={post}
                         id={post.id}
+                        edit="false"
                         handleTagClick={this.handleTagClick} />
                     </Link>
                 ))

@@ -9,7 +9,7 @@ import { firestoreConnect } from 'react-redux-firebase';
 import firebase from '../config/fbConfig';
 import '../App.css';
 
-class CreatePost extends React.Component {
+class EditPost extends React.Component {
 
     state = {
         company: '',
@@ -118,11 +118,11 @@ class CreatePost extends React.Component {
         e.preventDefault();
         // We pass the post we want to create which is the state of the component after we submit the form
         this.props.createPost(this.state);
-        this.props.history.push('/myPosts');
     }
 
     render() {
-        const { auth, classifications, technologies, profile, company } = this.props;
+        const { auth, classifications, technologies, profile, company, post } = this.props;
+        const tools = post.length !== 0 ? post[0].tools : [];
         let dataTechnologies = [];
 
         if(!auth.uid) return <Redirect to='/signin' />
@@ -161,7 +161,7 @@ class CreatePost extends React.Component {
                 <div className='bg-cover bg-center' style= {{ backgroundImage: `url('${background}')` }}>
                     <div className='bg-blue-600 bg-transparent bg-opacity-30'>
                         <div className='ml-80 py-20' >
-                            <span className='text-4xl fond-bold'>Create Post</span>
+                            <span className='text-4xl fond-bold'>Edit Post</span>
                         </div>
                     </div>
                 </div>
@@ -197,12 +197,13 @@ class CreatePost extends React.Component {
                                 </div>
                                 <div className="mt-4 flex justify-center">
                                     <button className="w-full mx-5 py-3 text-white font-light tracking-wider bg-red-600 rounded" type="submit">
-                                        <svg viewBox="0 0 20 20" enable-background="new 0 0 20 20" class="w-6 h-6 mr-1 inline-block">
-                                        <path fill="#FFFFFF" d="M16,10c0,0.553-0.048,1-0.601,1H11v4.399C11,15.951,10.553,16,10,16c-0.553,0-1-0.049-1-0.601V11H4.601
-                                        C4.049,11,4,10.553,4,10c0-0.553,0.049-1,0.601-1H9V4.601C9,4.048,9.447,4,10,4c0.553,0,1,0.048,1,0.601V9h4.399
-                                        C15.952,9,16,9.447,16,10z" />
+                                        <svg viewBox="0 0 20 20" enable-background="new 0 0 20 20" class="w-6 h-6 mr-3 inline-block">
+                                        <path fill="#FFFFFF" d="M17.561,2.439c-1.442-1.443-2.525-1.227-2.525-1.227L8.984,7.264L2.21,14.037L1.2,18.799l4.763-1.01
+                                        l6.774-6.771l6.052-6.052C18.788,4.966,19.005,3.883,17.561,2.439z M5.68,17.217l-1.624,0.35c-0.156-0.293-0.345-0.586-0.69-0.932
+                                        c-0.346-0.346-0.639-0.533-0.932-0.691l0.35-1.623l0.47-0.469c0,0,0.883,0.018,1.881,1.016c0.997,0.996,1.016,1.881,1.016,1.881
+                                        L5.68,17.217z"/>
                                         </svg>
-                                        Post
+                                        Edit Post
                                     </button>
                                 </div>
                             </div>
@@ -235,7 +236,7 @@ class CreatePost extends React.Component {
                                 </div>
                                 <div className='mt-2'>
                                     <label className='block text-lg font-semibold  text-gray-00'>Tools</label>
-                                    <Multiselect ref={this.multiselectRef} style={styles} options={this.state.dataTools} placeholder="Choose one/more tools" displayValue="name" onSelect={this.handleAddTools} onRemove={this.handleAddTools} />
+                                    <Multiselect ref={this.multiselectRef} style={styles} options={this.state.dataTools} selectedValues={tools} placeholder="Choose one/more tools" displayValue="name" onSelect={this.handleAddTools} onRemove={this.handleAddTools} />
                                 </div>
                                 <div className='mt-2'>
                                     <label className='block text-lg font-semibold  text-gray-00'>Responsabilites</label>
@@ -253,16 +254,24 @@ class CreatePost extends React.Component {
 
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
     const profile = state.firebase.profile;
     const allCompanies =  profile ? (state.firestore.ordered.companies) : ([]);
     const company = allCompanies ? (state.firestore.ordered.companies.filter(company => company.id === profile.company)) : ([]);
 
+    const pathname = ownProps.location.pathname;
+    const splitPath = pathname.split('/');
+    const postId = splitPath[2];
+
+    console.log(state.firestore.ordered);
+
     return {
+        postId: postId,
         auth: state.firebase.auth,
         classifications: state.firestore.ordered.classifications || state.classification.classifications,
         technologies: state.firestore.ordered.technologies || state.technology.technologies,
         profile: profile,
+        post: state.firestore.ordered.posts || [],
         company: company[0] || state.company.companies
 
     };
@@ -275,5 +284,13 @@ const mapDispatchToProps = (dispatch) => {
 
 export default compose(
  connect(mapStateToProps, mapDispatchToProps),
- firestoreConnect(["classifications", "technologies", "companies"])
-)(CreatePost);
+ firestoreConnect((props) => [
+     {
+         collection: 'posts',
+         doc: props.postId,
+     },
+     {collection: "classifications"}, 
+     {collection: "technologies"}, 
+     {collection: "companies"}
+ ])
+)(EditPost);

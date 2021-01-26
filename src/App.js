@@ -11,6 +11,9 @@ import CreatePost from './components/CreatePost';
 import Home from './components/Home';
 import Landing from './components/LandingPage';
 import LandingPage from './components/LandingPage';
+import MyPosts from './components/MyPosts';
+import EditPost from './components/EditPost';
+import Profile from './components/Profile';
 
 function App() {
 
@@ -26,6 +29,9 @@ function App() {
           <Route path='/home' component={Home}/>
           <Route path='/signin' component={SignIn}/>
           <Route path='/signup'  component={SignUp}/>
+          <Route path='/myPosts' component={MyPosts}/>
+          <Route path='/editPost' component={EditPost}/>
+          <Route path='/profile' component={Profile} />
           <Route path='/post/:id' component={JobPost}/>
           <Route path='/createPost' component={CreatePost}/>
         </Switch>

@@ -39,21 +39,6 @@ const Navbar = (props) => {
                     </div>
                 </div>
                 <div >
-                    {/* <div className='justify-center'>
-                        <ul className="md:flex items-center justify-between text-base text-blue-600 pt-4 md:pt-0">
-                            <li><a className="inline-block text-white no-underline hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2" href="#">Home</a></li>
-                            <li><a className="inline-block text-white no-underline hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2" href="#">Products</a></li>
-                            <li><a className="inline-block text-white no-underline hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2" href="#">About</a></li>
-                        </ul> 
-                    </div>
-                    <div className='pt-1 mr-2'>
-                        <button className="bg-red-600 text-white  px-4 py-1 rounded  hover:bg-blue-500 mx-2 hover:text-gray-100">Create Post</button>
-                        <button className="bg-transparent text-white  px-4 py-1 rounded border border-gray-300  mx-2 -2 hover:bg-gray-100 hover:text-gray-700">Sign out</button>
-                        <button className="bg-transparent text-white  px-4 py-1 rounded border border-gray-300  mx-2 -2 hover:bg-gray-100 hover:text-gray-700">Sign in</button>
-                        <button className="bg-red-600 text-white  px-4 py-1 rounded  hover:bg-blue-500 mx-2 hover:text-gray-100">Sign up</button>    
-                    </div> */}
-                    {/* <SignedInLinks />
-                    <SignedOutLinks /> */}
                     {links}
                 </div>
             </nav>
