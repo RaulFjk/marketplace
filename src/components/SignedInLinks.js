@@ -74,7 +74,7 @@ class SignedInLinks extends React.Component {
                         {profile.role !== 'student' && 
                             <li>
                             <NavLink onClick={() => this.handleNavClick()} className="bg-red-600 text-white pl-2 pr-5 py-2 rounded border border-red-600  hover:bg-blue-500 mx-2 hover:text-gray-100" to='/createPost'>
-                                <svg viewBox="0 0 20 20" enable-background="new 0 0 20 20" class="w-6 h-6 mr-1 inline-block">
+                                <svg viewBox="0 0 20 20" enable-background="new 0 0 20 20" className="w-6 h-6 mr-1 inline-block">
                                 <path fill="#FFFFFF" d="M16,10c0,0.553-0.048,1-0.601,1H11v4.399C11,15.951,10.553,16,10,16c-0.553,0-1-0.049-1-0.601V11H4.601
                                     C4.049,11,4,10.553,4,10c0-0.553,0.049-1,0.601-1H9V4.601C9,4.048,9.447,4,10,4c0.553,0,1,0.048,1,0.601V9h4.399
                                     C15.952,9,16,9.447,16,10z" />

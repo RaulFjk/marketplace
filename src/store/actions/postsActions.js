@@ -1,3 +1,5 @@
+import { constants } from "react-redux-firebase";
+
 export const createPost = (post) => {
     // because we added withExtraagument to thunk in index.js, we can now pass one more Argument to the thunk return statement
     return (dispatch, getState, { getFirebase, getFirestore }) => {
@@ -56,19 +58,65 @@ export const updatePost = (updatedPost, postId) => {
                 dispatch({ type: 'UPDATE_POST', updatedPost});
             }
         ).catch((err) => {
-            dispatch({ type: 'UPDATE_POST_ERROR', updatedPost})
+            dispatch({ type: 'UPDATE_POST_ERROR', err})
         });
     };
 };
 
-export const filterPostByClassifications = (filter) => {
-    return (dispatch, getState, {getFirebase, getFirestore}) => {
+export const filterPostByClassifications = (posts, filteredPostsList, filter) => {
 
+    const classification = filter ? (filter) : ('');
+    var filteredPosts= [];
+    return (dispatch, getState, {getFirebase, getFirestore}) => {
+        const techFilter = getState().post.technologiesFilter;
+        const technologyFilter = techFilter ? (techFilter) : ("");
+        if(technologyFilter === "" && filter === null){
+            filteredPosts = posts;
+        }else if(technologyFilter !== "" && filter === null){
+                filteredPosts = posts.filter(item => item.technologies.some(obj => obj.id === technologyFilter));}
+        else if(technologyFilter === ""){
+            filteredPosts = posts.filter(item => item.classification === filter.value);
+        }else if(technologyFilter !== "" && filter){
+            const firstList = posts.filter(item => item.classification === filter.value); 
+            const secondList = firstList.filter(item => item.technologies.some(obj => obj.id === technologyFilter));
+            filteredPosts = secondList;
+        }else{
+            filteredPosts = filteredPostsList.filter(item => item.classification === filter.value); 
+        }
+        dispatch({type:'FILTER_BY_CLASSIFICATIONS_POSTS', payload:{filteredPosts, classification} });
+        // const firestore = getFirestore();
+        // firestore.collection("posts").where("classifications", "==", filter)
+        // .get()
+        // .then((querySnapshot) => {
+        //     querySnapshot.forEach((doc) => {
+        //         filteredPosts.push(doc.data());
+        //     })
+        //     dispatch({type:'FILTER_BY_CLASSIFICATIONS_POSTS', filteredPosts});
+        // }
+        // ).catch((err)=> {
+        //     dispatch({type: 'FILTER_BY_CLASSIFICATIONS_POSTS_ERROR', err})
+        // })
     };
 };
 
-export const filterPostByTechnologies = (filter) => {
+export const filterPostByTechnologies = (posts, filteredPostsList, filter) => {
+    const technology = filter ? (filter) : ('');
+    var filteredPosts = [];
     return (dispatch, getState, {getFirebase, getFirestore}) => {
+        const state = getState().post;
+        console.log(state);
+        const classFilter = getState().post.classificationFilter;
+        const classificationFilter =  classFilter ? (classFilter) : ("");
+        if(classificationFilter === "" && filter === null){
+            filteredPosts = posts;
+        }else if(classificationFilter !== "" && filter === null){
+            filteredPosts = posts.filter(item => item.classification === classificationFilter);
+        }else if(classificationFilter === ""){
+            filteredPosts = posts.filter(item => item.technologies.some(obj => obj.id === filter.value) ) 
+        }else{
+            filteredPosts = filteredPostsList.filter(item => item.technologies.some(obj => obj.id === filter.value) );
+        }
+        dispatch({type:'FILTER_BT_TECHNOLOGIES_POSTS', payload:{filteredPosts, technology} });
 
     };
 };

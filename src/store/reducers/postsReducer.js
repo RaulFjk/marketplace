@@ -1,6 +1,9 @@
 const initState = {
     posts: [], 
-    filteredPosts: []
+    filteredPosts: [],
+    classificationFilter: '',
+    technologiesFilter: '',
+    postErr: null
 };
 
 const postsReducer = (state = initState, action) => {
@@ -19,9 +22,22 @@ const postsReducer = (state = initState, action) => {
         case 'DELETE_POST_ERROR':
             return state.filter((post) => post.id !== action.id);
         case 'FILTER_BY_CLASSIFICATIONS_POSTS':
-            return { filteredPosts: action };
+            return { 
+                ...state,
+                filteredPosts: action.payload.filteredPosts,
+                classificationFilter: action.payload.classification.value
+             };
+        case 'FILTER_BY_CLASSIFICATIONS_POSTS_ERROR':
+            return { 
+                ...state,
+                postErr: action.err 
+            };
         case 'FILTER_BT_TECHNOLOGIES_POSTS':
-            return { filteredPosts: action}
+            return { 
+                ...state,
+                filteredPosts: action.payload.filteredPosts,
+                technologiesFilter: action.payload.technology.value
+             };
         default:
             return state;
     }

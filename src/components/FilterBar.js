@@ -43,10 +43,11 @@ render() {
                       active:outline-none active:border-indigo-600'
                       placeholder='Search...'/>
                 </div>
-                <div  className='px-2 bg-indigo-300 bg-transparent bg-opacity-40 py-5'>
-                    <Select className='appearance-none rounded w-80 px-3 py-1 pb-2
+                <div  className='px-2 bg-indigo-300 bg-transparent bg-opacity-40  py-5'>
+                    <Select
+                    className='appearance-none rounded w-80 px-3 py-1 pb-2
                         focus focus:border-indigo-600 focus:outline-none
-                        active:outline-none active:border-indigo-600' 
+                        active:outline-none active:border-indigo-600 ' 
                                 options={classificationsOptions}
                                 onChange={this.props.filterClassification}
                                 isSearchable
@@ -57,7 +58,7 @@ render() {
                 <div  className='px-2 bg-indigo-300 bg-transparent bg-opacity-40 py-5'>
                     <Select className='appearance-none rounded w-80 px-3 py-1 pb-2
                      focus focus:border-indigo-600 focus:outline-none
-                      active:outline-none active:border-indigo-600' 
+                      active:outline-none active:border-indigo-600 z-30 ' 
                             options={technolgoiesOptions}
                             onChange={this.props.filterTechnologies}
                             isSearchable

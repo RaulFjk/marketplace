@@ -57,21 +57,51 @@ class Home extends React.Component {
 
     // filteredJobs = jobs.filter(filterFunc);
 
-    handleFilterClassification = (filter) => {
-        console.log(filter);
+    handleFilterClassification = (classification) => {
+        this.props.filterPostByClassifications(this.props.posts, this.props.filteredPosts, classification);
     }
 
     handleFilterTechnologies = (technologies) => {
-        console.log(technologies);
+        this.props.filterPostByTechnologies(this.props.posts, this.props.filteredPosts, technologies);
     }
 
     render(){
         
-        const{ posts, auth, location } = this.props;
+        const{ posts, auth, location, filteredPosts, classificationFilter, technologiesFilter } = this.props;
         if (!auth.uid){
             return <Redirect to ='/signin' />;
         }
+        console.log(filteredPosts);
 
+        if(filteredPosts){
+            if(classificationFilter || technologiesFilter)
+            return(
+                <div>
+                    <div >
+                        <FilterBar filterClassification={this.handleFilterClassification} filterTechnologies={this.handleFilterTechnologies} />
+                    </div>
+                    <div className='flex ml-10'>
+                        <span className='text-3xl text-red-500 py-4 mr-1'>All</span>
+                        <span className='text-3xl text-gray-700 py-4 '>Posts</span>
+                    </div>
+                    {/* Tags Filter above the jobs ---------->>>> must be adapted <<<<<<<<<<<<<<<<<------------------------- */}
+                    {filteredPosts.length === 0 ? (
+                    <p>Looks like there is no post...</p>
+                    ) : (
+                    filteredPosts.map( post => (
+                        <Link to={'/post/' + post.id} key={post.id}>
+                            <JobBoardComponent
+                            post={post}
+                            id={post.id}
+                            edit="false"
+                            handleTagClick={this.handleTagClick} />
+                        </Link>
+                    ))
+                    )
+                }
+                </div>
+                ); 
+        }
         return(
             <div>
                 <div >
@@ -82,22 +112,6 @@ class Home extends React.Component {
                     <span className='text-3xl text-gray-700 py-4 '>Posts</span>
                 </div>
                 {/* Tags Filter above the jobs ---------->>>> must be adapted <<<<<<<<<<<<<<<<<------------------------- */}
-
-            {/* { filters.length > 0 && (
-                <div className= 'flex bg-white shadow-md my-16 mx-10 p-6 rounded '>
-                    {filters.length > 0 && filters.map(
-                        (filter) => (
-                        <span
-                        className='cursor-pointer mr-4 mb-4
-                        p-2 rounded text-green-500
-                        bg-green-100 font-bold sm:mb-0'
-                        onClick={() => handleFilterClick(filter)}>
-                            ×{filter}
-                            </span>
-                            ))}
-                            <button onClick={clearFilters} className='font-bold text-gray-700 ml-auto'>Clear</button>
-                </div>
-                )} */}
                 {posts.length === 0 ? (
                 <p>Jobs are loading...</p>
                 ) : (
@@ -121,11 +135,22 @@ const mapStateToProps = (state) => {
 //    console.log(state);
     return {
         posts: state.firestore.ordered.posts || state.post.posts,
-        auth: state.firebase.auth
+        auth: state.firebase.auth,
+        filteredPosts: state.post.filteredPosts,
+        classificationFilter: state.post.classificationFilter,
+        technologiesFilter: state.post.technologiesFilter
     };
 };
+
+const mapDispatchToProps = (dispatch) => {
+    return{
+        filterPostByClassifications: (posts, filteredPosts, filter) => dispatch(filterPostByClassifications(posts, filteredPosts, filter)),
+        filterPostByTechnologies: (posts, filteredPosts, filter) => dispatch(filterPostByTechnologies(posts, filteredPosts, filter))
+    };
+}
+
 export default compose(
-    connect(mapStateToProps),
+    connect(mapStateToProps, mapDispatchToProps),
     firestoreConnect(["posts"])
 )(Home);
 
