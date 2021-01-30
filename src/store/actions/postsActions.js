@@ -5,11 +5,11 @@ export const createPost = (post) => {
         const firestore = getFirestore();
         const profile = getState().firebase.profile;
         const authorid = getState().firebase.auth.uid;
-        const { company, location, contract, apply, title, role, classification, responsabilities } = post;
-        const techs = post.technologies;
-        const toolsA = post.tools;
-        const technolgies = techs.map(function (technology) { return technology.language; });
-        const tools = toolsA.map(function (tool) { return tool.name; });
+        const { company, location, contract, apply, title, role, technologies,tools, classification, responsabilities } = post;
+        // const techs = post.technologies;
+        // const toolsA = post.tools;
+        // const technolgies = techs.map(function (technology) { return technology.language; });
+        // const tools = toolsA.map(function (tool) { return tool.name; });
         firestore.collection('posts').add({
             company,
             location,
@@ -18,7 +18,7 @@ export const createPost = (post) => {
             title,
             role,
             classification,
-            technolgies,
+            technologies,
             tools,
             responsabilities,
             firstName: profile.firstName,
@@ -45,5 +45,30 @@ export const deletePost = (post) => {
         ).catch((err) => {
             dispatch({ type: 'DELETE_POST_ERROR', err})
         });
+    };
+};
+
+export const updatePost = (updatedPost, postId) => {
+    return (dispatch, getState, {getFirebase, getFirestore}) => {
+        const firestore = getFirestore();
+        firestore.collection('posts').doc(postId).update({...updatedPost}).then(
+            () => {
+                dispatch({ type: 'UPDATE_POST', updatedPost});
+            }
+        ).catch((err) => {
+            dispatch({ type: 'UPDATE_POST_ERROR', updatedPost})
+        });
+    };
+};
+
+export const filterPostByClassifications = (filter) => {
+    return (dispatch, getState, {getFirebase, getFirestore}) => {
+
+    };
+};
+
+export const filterPostByTechnologies = (filter) => {
+    return (dispatch, getState, {getFirebase, getFirestore}) => {
+
     };
 };

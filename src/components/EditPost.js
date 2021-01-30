@@ -2,7 +2,7 @@ import React from 'react';
 import background from '../jobBack.jpg';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { createPost } from '../store/actions/postsActions';
+import { updatePost } from '../store/actions/postsActions';
 import { Redirect } from 'react-router';
 import { Multiselect } from 'multiselect-react-dropdown';
 import { firestoreConnect } from 'react-redux-firebase';
@@ -27,6 +27,34 @@ class EditPost extends React.Component {
 
     componentDidMount(){
         this.multiselectRef = React.createRef();
+   
+
+        const pathname = this.props.location.pathname;
+        const splitPath = pathname.split('/');
+        const postId = splitPath[2];
+
+        const ref = firebase.firestore();
+        const postRef = ref.collection('posts').doc(postId).get().then( (doc) => {
+            
+
+                if(doc.exists){
+                const post = doc.data();
+
+                this.setState({
+                    company: post.company,
+                    location: post.location,
+                    contract: post.contract,
+                    apply: post.apply,
+                    title: post.title,
+                    role : post.role,
+                    classification : post.classification,
+                    technologies: post.technologies,
+                    tools: post.tools,
+                    responsabilities: post.responsabilities
+                }); }
+        
+
+        }); 
      
     }
 
@@ -116,24 +144,20 @@ class EditPost extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
+        const pathname = this.props.location.pathname;
+        const splitPath = pathname.split('/');
+        const postId = splitPath[2];
         // We pass the post we want to create which is the state of the component after we submit the form
-        this.props.createPost(this.state);
+        this.props.updatePost(this.state, postId);
     }
 
     render() {
-        const { auth, classifications, technologies, profile, company, post } = this.props;
-        const tools = post.length !== 0 ? post[0].tools : [];
+        const { auth, post, profile, classifications } = this.props;
+        const allTechnologies = this.props.technologies;
+        const { company, location, contract, apply, title, role, classification, technologies, tools, responsabilities } = post.length !== 0 ? post[0]: {};
         let dataTechnologies = [];
 
         if(!auth.uid) return <Redirect to='/signin' />
-
-        // create technology options for multiselect
-        // if(technologies.length !== 0){
-        //     technologies.forEach(technology => {
-        //        const object = {Technology: technology.language, id: technology.id}
-        //        dataTechnologies.push(object);
-        //     })
-        // }
 
         const styles = {
             multiselectContainer: { 
@@ -176,15 +200,15 @@ class EditPost extends React.Component {
                                 </div>
                                 <div className="">
                                     <label className="block text-lg font-semibold  text-sm text-gray-00" for="company">Company</label>
-                                    <input className="w-full px-2 py-1 text-gray-700 bg-gray-200 rounded hover:bg-gray-100" id="company" value={company.name} type="text" required="" placeholder="Company" disabled="true" aria-label="Name" />
+                                    <input className="w-full px-2 py-1 text-gray-700 bg-gray-200 rounded hover:bg-gray-100" id="company" value={company} type="text" required="" placeholder="Company" disabled="true" aria-label="Name" />
                                 </div>
                                 <div className='mt-2'>
                                     <label className='block text-lg font-semibold  text-gray-00' for="location">Location</label>
-                                    <input className='w-full px-2 py-1 text-gray-700 bg-gray-200 rounded hover:bg-gray-100' onChange={this.handleChange} id="location" placeholder='Location' />
+                                    <input className='w-full px-2 py-1 text-gray-700 bg-gray-200 rounded hover:bg-gray-100' value={location}  onChange={this.handleChange} id="location" placeholder='Location' />
                                 </div>
                                 <div className='mt-2'>
                                     <label className='block text-lg font-semibold  text-gray-00' for="contract">Contract</label>
-                                    <select className='w-full px-2 py-1 text-gray-700 bg-gray-200 rounded' onChange={this.handleChange} id="contract" >
+                                    <select className='w-full px-2 py-1 text-gray-700 bg-gray-200 rounded' value={contract} onChange={this.handleChange} id="contract" >
                                         <option hidden value="" className='w-full px-2 py-1 text-gray-700 bg-gray-200 rounded'>Contract Type</option>
                                         <option value="Full-Time" className='w-full px-2 py-1 text-gray-700 bg-gray-200 rounded'>Full-Time</option>
                                         <option value="Part-Time" className='w-full px-2 py-1 text-gray-700 bg-gray-200 rounded'>Part-Time</option>
@@ -193,7 +217,7 @@ class EditPost extends React.Component {
                                 </div>
                                 <div className='mt-7'>
                                     <label className='block text-lg font-semibold  text-gray-00'>How to apply?</label>
-                                    <textarea className='w-full h-44 px-2 py-1 text-gray-700 bg-gray-200 rounded hover:bg-gray-100' cols="10" rows="20" onChange={this.handleChange} autoComplete="off" id="apply" placeholder='How to apply?' />
+                                    <textarea className='w-full h-44 px-2 py-1 text-gray-700 bg-gray-200 rounded hover:bg-gray-100' value={apply} cols="10" rows="20" onChange={this.handleChange} autoComplete="off" id="apply" placeholder='How to apply?' />
                                 </div>
                                 <div className="mt-4 flex justify-center">
                                     <button className="w-full mx-5 py-3 text-white font-light tracking-wider bg-red-600 rounded" type="submit">
@@ -213,17 +237,17 @@ class EditPost extends React.Component {
                             <div className='mr-10'>
                                 <div className="mt-2">
                                     <label className='block text-lg font-semibold  text-gray-00'>Job Title</label>
-                                    <input className='w-full px-2 py-1 text-gray-700 bg-gray-200 rounded hover:bg-gray-100' onChange={this.handleChange} placeholder='Job Title' id="title" />
+                                    <input className='w-full px-2 py-1 text-gray-700 bg-gray-200 rounded hover:bg-gray-100' value={title} onChange={this.handleChange} placeholder='Job Title' id="title" />
                                 </div>
                                 
                                 <div className='mt-2'>
                                     <label className='block text-lg font-semibold  text-gray-00'>Role</label>
-                                    <input className='w-full px-2 py-1 text-gray-700 bg-gray-200 rounded hover:bg-gray-100' onChange={this.handleChange} placeholder='Role' id="role" />
+                                    <input className='w-full px-2 py-1 text-gray-700 bg-gray-200 rounded hover:bg-gray-100' value={role} onChange={this.handleChange} placeholder='Role' id="role" />
                                 </div>
                                 <div className='mt-2'>
                                     <label className='block text-lg font-semibold  text-gray-00'>Classification</label>
                                     <select className='w-full px-2 py-1 text-gray-700 bg-gray-200 rounded' onChange={this.handleChange} id="classification" placeholder='Classification' >
-                                        <option hidden value="" className='w-full px-2 py-1 text-gray-700 bg-gray-200 rounded'>Select category</option>
+                                        <option hidden value={classification} className='w-full px-2 py-1 text-gray-700 bg-gray-200 rounded'>Select category</option>
                                         {classifications.length === 0 ? (<option ></option>) : (classifications.map( classification =>(
                                             <option value={classification.id}>{classification.name}</option>
                                         )
@@ -232,7 +256,7 @@ class EditPost extends React.Component {
                                 </div>
                                 <div className='mt-2'>
                                     <label className='block text-lg font-semibold  text-gray-00'>Technologies</label>
-                                    <Multiselect ref={this.multiselectRef} style={styles} options={technologies} placeholder="Choose technolgies" displayValue="language" onSelect={this.handleAddTechnologies} onRemove={this.handleRemoveTechnologies} />
+                                    <Multiselect ref={this.multiselectRef} style={styles} options={allTechnologies} selectedValues={technologies} placeholder="Choose technolgies" displayValue="language" onSelect={this.handleAddTechnologies} onRemove={this.handleRemoveTechnologies} />
                                 </div>
                                 <div className='mt-2'>
                                     <label className='block text-lg font-semibold  text-gray-00'>Tools</label>
@@ -240,7 +264,7 @@ class EditPost extends React.Component {
                                 </div>
                                 <div className='mt-2'>
                                     <label className='block text-lg font-semibold  text-gray-00'>Responsabilites</label>
-                                    <textarea className='w-full h-44 px-2 py-1 text-gray-700 bg-gray-200 hover:bg-gray-100 rounded' cols="10" rows="20"  autoComplete="off" id="responsabilities" onChange={this.handleChange} placeholder='Responsabilities' />
+                                    <textarea className='w-full h-44 px-2 py-1 text-gray-700 bg-gray-200 hover:bg-gray-100 rounded' value={responsabilities} cols="10" rows="20"  autoComplete="off" id="responsabilities" onChange={this.handleChange} placeholder='Responsabilities' />
                                 </div>
                             </div>
                         </div>
@@ -256,14 +280,12 @@ class EditPost extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     const profile = state.firebase.profile;
-    const allCompanies =  profile ? (state.firestore.ordered.companies) : ([]);
-    const company = allCompanies ? (state.firestore.ordered.companies.filter(company => company.id === profile.company)) : ([]);
+  //  const allCompanies =  profile ? (state.firestore.ordered.companies) : ([]);
+    //const company = allCompanies ? (state.firestore.ordered.companies.filter(company => company.id === profile.company)) : ([]);
 
     const pathname = ownProps.location.pathname;
     const splitPath = pathname.split('/');
     const postId = splitPath[2];
-
-    console.log(state.firestore.ordered);
 
     return {
         postId: postId,
@@ -271,14 +293,14 @@ const mapStateToProps = (state, ownProps) => {
         classifications: state.firestore.ordered.classifications || state.classification.classifications,
         technologies: state.firestore.ordered.technologies || state.technology.technologies,
         profile: profile,
-        post: state.firestore.ordered.posts || [],
-        company: company[0] || state.company.companies
+        post: state.firestore.ordered.posts || []
+        //company: company[0] || state.company.companies
 
     };
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        createPost: (post) => dispatch(createPost(post))
+        updatePost: (post, postId) => dispatch(updatePost(post, postId))
     };
 };
 
@@ -289,8 +311,8 @@ export default compose(
          collection: 'posts',
          doc: props.postId,
      },
-     {collection: "classifications"}, 
-     {collection: "technologies"}, 
-     {collection: "companies"}
+    {collection: "classifications"}, 
+    {collection: "technologies"}, 
+     //{collection: "companies"}
  ])
 )(EditPost);

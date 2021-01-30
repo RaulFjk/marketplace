@@ -4,6 +4,7 @@ import avatar from '../avatar.jpg'
 import ubbAvatar from '../ubb.png';
 import '../css/Navbar.css';
 import FilterBar from './FilterBar';
+import { Link } from 'react-router-dom';
 import Dropdown from 'react-dropdown';
 import SignedInLinks from './SignedInLinks';
 import SignedOutLinks from './SignedOutLinks';
@@ -31,11 +32,13 @@ const Navbar = (props) => {
             <nav id="header" className="w-full flex flex-wrap z-30 top-10 py-1 bg-blue-800 shadow-2xl justify-between pt-2" >
                 <div className='flex my-2'>
                     <div className="flex px-8 ">
-                        <div className="hidden md:flex md:items-center md:w-auto w-full order-3 md:order-1" id="menu">
-                                <img className="w-12 h-12 bg-white ml-auto mr-2 rounded-full" src={ubbAvatar} />
-                                <span className='mr-1 text-xl text-red-600 mb-1 font-bold '>UBB</span>
-                                <span className='text-xl text-blue-400 mb-1'>Marketplace</span>
-                        </div>
+                        <Link to='/home' >
+                            <div className="hidden md:flex md:items-center md:w-auto w-full order-3 md:order-1 " id="menu">
+                                    <img className="w-12 h-12 bg-white ml-auto mr-2 rounded-full" src={ubbAvatar} />
+                                    <span className='mr-1 text-xl text-red-600 mb-1 font-bold '>UBB</span>
+                                    <span className='text-xl text-blue-400 mb-1'>Marketplace</span>
+                            </div>
+                        </Link>
                     </div>
                 </div>
                 <div >

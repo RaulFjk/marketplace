@@ -21,7 +21,7 @@ class MyPosts extends React.Component{
                     <span className='text-3xl text-gray-700 py-4 '>Posts</span>
                 </div>
                 {posts.length === 0 ? (
-                    <p>Jobs are loading...</p>
+                    <p className="mx-4">It looks like you didn't pos any jobs yet...</p>
                     ) : (
                     posts.map( post => (
                      //   <Link to={'/post/' + post.id} key={post.id}>
@@ -41,12 +41,20 @@ class MyPosts extends React.Component{
 }
 
 const mapStateToProps = (state) => {
+
+        const userId = state.firebase.auth.uid ? (state.firebase.auth.uid):  ('');
         return {
             posts: state.firestore.ordered.posts || state.post.posts,
-            auth: state.firebase.auth
+            auth: state.firebase.auth,
+            userId: userId
+
         };
     };
     export default compose(
         connect(mapStateToProps),
-        firestoreConnect(["posts"])
+        firestoreConnect( (props) => [
+           {collection: 'posts',
+            where: [[ 'userId', '==', props.userId ]] 
+        }
+        ])
     )(MyPosts);

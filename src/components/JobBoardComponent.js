@@ -4,8 +4,10 @@ import logo from '../eyecam-co.svg';
 import moment from 'moment';
 import { NavLink, Redirect, useHistory } from 'react-router-dom';
 import firebase from '../config/fbConfig';
+import { connect } from 'react-redux'; 
+import { deletePost } from '../store/actions/postsActions';
 
-const JobBoardComponent = ({ edit, post, post: {
+const JobBoardComponent = ({ edit, deletePost, post, post: {
     company,
     featured,
     title,
@@ -13,13 +15,18 @@ const JobBoardComponent = ({ edit, post, post: {
     postedAt,
     contract,
     location,
-    technologies,
-    tools,
 },
 id,
 handleTagClick
  }) => {
     const tags = [role];
+
+    
+    const techs = post.technologies;
+    const technologies = techs.map(function (technology) { return technology.language; }); 
+
+    const toolsA = post.tools;
+    const tools = toolsA.map(function (tool) { return tool.name; });
 
     if (tools) {
         tags.push(...tools);
@@ -30,9 +37,10 @@ handleTagClick
     }
     const history = useHistory();
 
-    const deletePost = () => {
-        const db = firebase.firestore();
+    const handleDeletePost = () => {
+        const db = firebase.firestore();//
         //db.collection('posts').doc(post.id).delete();
+        deletePost(post);
         history.push('/myPosts');
         
     }
@@ -87,7 +95,7 @@ handleTagClick
                                         L5.68,17.217z"/>
                     </svg>
                 </NavLink>
-                <button className="inline-block p-3 ml-3 text-center text-white transition bg-red-600 rounded-full shadow ripple hover:shadow-lg hover:bg-gray-200 focus:outline-none" onClick={deletePost}>
+                <button className="inline-block p-3 ml-3 text-center text-white transition bg-red-600 rounded-full shadow ripple hover:shadow-lg hover:bg-gray-200 focus:outline-none" onClick={handleDeletePost}>
                     <svg className="w-5 h-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path
                         fill-rule="evenodd"
@@ -100,4 +108,10 @@ handleTagClick
     );
 }
 
-export default JobBoardComponent;
+const mapDispatchToProps = (dispatch) => {
+    return{
+        deletePost: (post) => dispatch(deletePost(post))
+    };
+}
+
+export default connect(null, mapDispatchToProps)(JobBoardComponent);

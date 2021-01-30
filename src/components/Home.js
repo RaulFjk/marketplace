@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import data from '../assets/data.json';
 import JobBoardComponent from './JobBoardComponent';
+import { filterPostByClassifications, filterPostByTechnologies } from '../store/actions/postsActions';
 import FilterBar from './FilterBar';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
@@ -9,6 +10,7 @@ import { compose } from 'redux';
 import { Redirect } from 'react-router-dom';
 
 class Home extends React.Component {
+
 
     // const [jobs, setJobs] = useState([]);
     // const [filters, setFilters] = useState([]);
@@ -55,6 +57,14 @@ class Home extends React.Component {
 
     // filteredJobs = jobs.filter(filterFunc);
 
+    handleFilterClassification = (filter) => {
+        console.log(filter);
+    }
+
+    handleFilterTechnologies = (technologies) => {
+        console.log(technologies);
+    }
+
     render(){
         
         const{ posts, auth, location } = this.props;
@@ -65,7 +75,7 @@ class Home extends React.Component {
         return(
             <div>
                 <div >
-                    <FilterBar />
+                    <FilterBar filterClassification={this.handleFilterClassification} filterTechnologies={this.handleFilterTechnologies} />
                 </div>
                 <div className='flex ml-10'>
                     <span className='text-3xl text-red-500 py-4 mr-1'>All</span>

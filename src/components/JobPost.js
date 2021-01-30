@@ -1,5 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
+import moment from 'moment';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
@@ -14,13 +15,14 @@ const JobPost = (props) => {
     if(!auth.uid){
         return <Redirect to='/signin' />;
     }else if(post) {
+    const { company, title, location, contract, apply, postedAt, role, cassification, technologies, tools, responsabilities } = post[0];
     return (
             <div>
                 {/* Job title and description div */}
                 <div className='bg-cover bg-center' style= {{ backgroundImage: `url('${background}')` }}>
                     <div className='bg-blue-600 bg-transparent bg-opacity-30'>
                         <div className='ml-44 py-20' >
-                            <span className='text-4xl fond-bold'>IOS Developer - IOS, Git, API</span>
+                            <span className='text-4xl fond-bold'>{title}</span>
                         </div>
                     </div>
                 </div>
@@ -36,18 +38,9 @@ const JobPost = (props) => {
                              From AdWords to Chrome, Android to Ye, Social to Local, Google engineers are changing the world.
                         </p>
                         <h1 className='text-2xl py-6 font-semibold'>Responsabilities</h1>
-                        <p>Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.
-                             Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Curabitur aliquet quam id dui posuere blandit.
-                        Build next-generation web applications with a focus on the client side.
-                        Redesign UI’s, implement new UI’s, and pick up Java as necessary.
-                        Explore and design dynamic and compelling consumer experiences.
-                        Design and build scalable framework for web applications.
-                        </p>
+                        <p>{responsabilities}</p>
                         <h1 className='text-2xl py-6 font-semibold'>How to apply?</h1>
-                        <p>Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.
-                             Curabitur aliquet quam id dui posuere blandit.
-                             Curabitur aliquet quam id dui posuere blandit. Curabitur non nulla sit 
-                             amet nisl tempus convallis quis ac lectus.</p>
+                        <p>{apply}</p>
                         </div>
                     </div>
                     {/* Job Overview card on the right side with Job Description tags */}
@@ -60,7 +53,7 @@ const JobPost = (props) => {
                         {/*Image div with Company Logo  */}
                         <div className='border-b-2 py-4'>
                             <img className='my-8 mx-32' src={jobLogo}/>
-                            <span className='font-semibold ml-28 px-2'> MHP Consulting </span>
+                            <span className='font-semibold ml-28 px-2'> {company} </span>
                         </div>
                         <div className='ml-6'>
                             {/* Posted on heading with icon */}
@@ -79,7 +72,7 @@ const JobPost = (props) => {
 					            </svg>
                                <h1 className='ml-2 font-semibold'>Posted on</h1>
                                 </div>
-                                <span className='ml-7 text-gray-400'>3 years ago</span>
+                                <span className='ml-7 text-gray-400'> {moment(postedAt.toDate()).calendar()}</span>
                             </div>
                             {/* Location div with header */}
                             <div className='my-6'>
@@ -98,7 +91,7 @@ const JobPost = (props) => {
                                     </svg>
                                     <h1 className='ml-2 font-semibold'>Location</h1>
                                 </div>
-                                <span className='ml-7 text-gray-400'>Cluj-Napoca</span>
+                                <span className='ml-7 text-gray-400'>{location}</span>
                             </div>
                             {/* Title div with header */}
                             <div className='my-6'>
@@ -117,7 +110,7 @@ const JobPost = (props) => {
                                 </svg>
                                     <h1 className='ml-2 font-semibold'>Title</h1>
                                 </div>
-                                <span className='ml-7 text-gray-400'>IOS Developer</span>
+                                <span className='ml-7 text-gray-400'>{title}</span>
                             </div>
                             {/* Category div with header */}
                             <div className='my-6'>
@@ -135,9 +128,9 @@ const JobPost = (props) => {
                                     strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0
                                      01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                                     </svg>
-                                    <h1 className='ml-2 font-semibold'>Category</h1>
+                                    <h1 className='ml-2 font-semibold'>Role</h1>
                                 </div>
-                                <span className='ml-7 text-gray-400'>Front End Development</span>
+                                <span className='ml-7 text-gray-400'>{role}</span>
                             </div>
                             <div className='mb-6'>
                                 <button type="submit" className="w-64 mx-8 py-3 mt-6 font-medium tracking-widest rounded-md text-white uppercase bg-blue-800 shadow-lg focus:outline-none hover:bg-gray-900 hover:shadow-none">
@@ -161,30 +154,25 @@ const JobPost = (props) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    // console.log(state);
-    // ownProps is the props of this component before we attache anything else to it ( before the return statement )
-    const id = ownProps.match.params.id;
-    const posts = state.firestore.data.posts;
-    const companies = state.firestore.ordered.companies;
-    //if posts exist than i want the post with the desired id from ownProps / Else null
-    const post = posts ? posts[id] : null;
+
+    const pathname = ownProps.location.pathname;
+    const splitPath = pathname.split('/');
+    const postId = splitPath[2];
     
-
-    //     //Save company name
-        const comp = posts ? (companies ? companies.filter((com) => com.name === posts[id].company ) : null) : null;
-        const company = comp ? comp[0] : null;
-        console.log(comp);
-    
-
-
     return {
-        post: post,
-        company: company,
+        postId : postId,
+        post: state.firestore.ordered.posts,
         auth: state.firebase.auth
     }
 }
 
 export default compose(
     connect(mapStateToProps),
-    firestoreConnect(["posts","companies"])
+    firestoreConnect((props) => [
+        {
+            collection: 'posts',
+            doc: props.postId
+        }
+    
+    ])
 )(JobPost);
