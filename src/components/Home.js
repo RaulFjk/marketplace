@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import data from '../assets/data.json';
+import backG from '../try.jpg';
 import JobBoardComponent from './JobBoardComponent';
-import { filterPostByClassifications, filterPostByTechnologies } from '../store/actions/postsActions';
+import { filterPostByClassifications, filterPostByTechnologies, searchPosts } from '../store/actions/postsActions';
 import FilterBar from './FilterBar';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
@@ -65,22 +66,29 @@ class Home extends React.Component {
         this.props.filterPostByTechnologies(this.props.posts, this.props.filteredPosts, technologies);
     }
 
+    handleSearchPosts = (searchTerm) => {
+        this.props.searchPosts(this.props.posts, this.props.filteredPosts, searchTerm)
+    }
+
     render(){
+
+       
         
-        const{ posts, auth, location, filteredPosts, classificationFilter, technologiesFilter } = this.props;
+        const{ posts, auth, location, filteredPosts, classificationFilter, technologiesFilter, searchFilter } = this.props; 
+        const postsNumber = posts ? (posts.length) : ("0");
         if (!auth.uid){
             return <Redirect to ='/signin' />;
         }
         console.log(filteredPosts);
 
         if(filteredPosts){
-            if(classificationFilter || technologiesFilter)
+            if(classificationFilter || technologiesFilter || searchFilter)
             return(
-                <div>
-                    <div >
-                        <FilterBar filterClassification={this.handleFilterClassification} filterTechnologies={this.handleFilterTechnologies} />
+                <main>
+                   <div className="sticky top-20 z-40 ">
+                    <FilterBar filterClassification={this.handleFilterClassification} filterTechnologies={this.handleFilterTechnologies} searchPosts={this.handleSearchPosts} />
                     </div>
-                    <div className='flex ml-10'>
+                    <div className='flex ml-10 z-30'>
                         <span className='text-3xl text-red-500 py-4 mr-1'>All</span>
                         <span className='text-3xl text-gray-700 py-4 '>Posts</span>
                     </div>
@@ -99,17 +107,17 @@ class Home extends React.Component {
                     ))
                     )
                 }
-                </div>
+                </main>
                 ); 
         }
         return(
-            <div>
-                <div >
-                    <FilterBar filterClassification={this.handleFilterClassification} filterTechnologies={this.handleFilterTechnologies} />
+            <main>
+                <div className="sticky top-20">
+                    <FilterBar postsNumber={postsNumber} filterClassification={this.handleFilterClassification} filterTechnologies={this.handleFilterTechnologies} searchPosts={this.handleSearchPosts}  />
                 </div>
                 <div className='flex ml-10'>
-                    <span className='text-3xl text-red-500 py-4 mr-1'>All</span>
-                    <span className='text-3xl text-gray-700 py-4 '>Posts</span>
+                    <span className='text-3xl text-red-600 py-4 mr-1 font-bold'>All</span>
+                    <span className='text-3xl text-blue-400 font-bold py-4 '>Posts</span>
                 </div>
                 {/* Tags Filter above the jobs ---------->>>> must be adapted <<<<<<<<<<<<<<<<<------------------------- */}
                 {posts.length === 0 ? (
@@ -126,7 +134,7 @@ class Home extends React.Component {
                 ))
                 )
             }
-            </div>
+            </main>
             );
         }
 }
@@ -138,14 +146,16 @@ const mapStateToProps = (state) => {
         auth: state.firebase.auth,
         filteredPosts: state.post.filteredPosts,
         classificationFilter: state.post.classificationFilter,
-        technologiesFilter: state.post.technologiesFilter
+        technologiesFilter: state.post.technologiesFilter,
+        searchFilter: state.post.searchFilter
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return{
         filterPostByClassifications: (posts, filteredPosts, filter) => dispatch(filterPostByClassifications(posts, filteredPosts, filter)),
-        filterPostByTechnologies: (posts, filteredPosts, filter) => dispatch(filterPostByTechnologies(posts, filteredPosts, filter))
+        filterPostByTechnologies: (posts, filteredPosts, filter) => dispatch(filterPostByTechnologies(posts, filteredPosts, filter)),
+        searchPosts: (posts, filteredPosts, searchTerm) => dispatch(searchPosts(posts, filteredPosts, searchTerm))
     };
 }
 

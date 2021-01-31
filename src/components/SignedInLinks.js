@@ -84,6 +84,17 @@ class SignedInLinks extends React.Component {
                             </li>
                         }
                         <li>
+                            <NavLink onClick={() => this.handleNavClick()} className="bg-red-600 text-white pl-2 pr-5 py-2 rounded border border-red-600  hover:bg-blue-500 mx-2 hover:text-gray-100" to='/settings'>
+                                <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 20 20" className=" text-white fill-current w-6 h-6 mr-1 inline-block">
+                                <path fillRule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 
+                                2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379
+                                1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3
+                                    3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
+                                </svg>
+                                Manage App 
+                            </NavLink>
+                            </li>
+                        <li>
                             <a onClick={this.props.signOut} className="bg-transparent text-white px-5 py-2  rounded border border-gray-300  mx-2 -2 hover:bg-gray-100 hover:text-gray-700" >Sign Out</a>
                         </li>
                         <li>
@@ -92,7 +103,7 @@ class SignedInLinks extends React.Component {
                                 </button>
                                 {/* <div x-show="dropdownOpen"  class="fixed inset-0 h-full w-full z-10"></div> */}
                                 {this.state.open === true && (
-                                    <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20">
+                                    <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-50">
                                     <NavLink onClick={() => this.handleNavClick()} className="block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-800 hover:text-white" to='/profile'>
                                     Your profile
                                     </NavLink>

@@ -7,7 +7,7 @@ export const createPost = (post) => {
         const firestore = getFirestore();
         const profile = getState().firebase.profile;
         const authorid = getState().firebase.auth.uid;
-        const { company, location, contract, apply, title, role, technologies,tools, classification, responsabilities } = post;
+        const { company, location, contract, apply, description, title, role, technologies,tools, classification, responsabilities, qualifications } = post;
         // const techs = post.technologies;
         // const toolsA = post.tools;
         // const technolgies = techs.map(function (technology) { return technology.language; });
@@ -16,6 +16,7 @@ export const createPost = (post) => {
             company,
             location,
             contract,
+            description,
             apply,
             title,
             role,
@@ -23,6 +24,7 @@ export const createPost = (post) => {
             technologies,
             tools,
             responsabilities,
+            qualifications,
             firstName: profile.firstName,
             lasName: profile.lastName,
             userId: authorid,
@@ -104,7 +106,6 @@ export const filterPostByTechnologies = (posts, filteredPostsList, filter) => {
     var filteredPosts = [];
     return (dispatch, getState, {getFirebase, getFirestore}) => {
         const state = getState().post;
-        console.log(state);
         const classFilter = getState().post.classificationFilter;
         const classificationFilter =  classFilter ? (classFilter) : ("");
         if(classificationFilter === "" && filter === null){
@@ -116,7 +117,31 @@ export const filterPostByTechnologies = (posts, filteredPostsList, filter) => {
         }else{
             filteredPosts = filteredPostsList.filter(item => item.technologies.some(obj => obj.id === filter.value) );
         }
-        dispatch({type:'FILTER_BT_TECHNOLOGIES_POSTS', payload:{filteredPosts, technology} });
+        dispatch({type:'FILTER_BY_TECHNOLOGIES_POSTS', payload:{filteredPosts, technology} });
+
+    };
+};
+
+export const searchPosts = (posts, filteredPostsList, searchTerm) => {
+    var filteredPosts = [];
+    return (dispatch, getState, {getFirebase, getFirestore}) => {
+        const classFilter = getState().post.classificationFilter;
+        const techFilter = getState().post.technologiesFilter;
+        const classificationFilter =  classFilter ? (classFilter) : ("");
+        const technologyFilter = techFilter ? (techFilter) : ("");
+
+        if(searchTerm === "" && classificationFilter === "" && technologyFilter=== "" ){
+            filteredPosts = posts;
+        }else if(searchTerm !== "" && (classificationFilter !== "" || technologyFilter!== "") ){
+            filteredPosts = filteredPostsList.filter(item => item.title.toLowerCase().includes(searchTerm.toLowerCase()));;
+        }else if(searchTerm !== ""){
+            filteredPosts = posts.filter(item => item.title.toLowerCase().includes(searchTerm.toLowerCase()));;
+        }else if(searchTerm === "" && (classificationFilter !== "" || technologyFilter!== "" )){
+            if(classificationFilter !== "") filteredPosts = posts.filter(item => item.classification === classificationFilter); 
+            else
+                filteredPosts = posts.filter(item => item.technologies.some(obj => obj.id === technologyFilter) );
+        }
+        dispatch({type:'SEARCH_POSTS', payload:{filteredPosts, searchTerm} });
 
     };
 };

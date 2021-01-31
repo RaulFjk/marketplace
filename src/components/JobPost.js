@@ -15,7 +15,7 @@ const JobPost = (props) => {
     if(!auth.uid){
         return <Redirect to='/signin' />;
     }else if(post) {
-    const { company, title, location, contract, apply, postedAt, role, cassification, technologies, tools, responsabilities } = post[0];
+    const { company, title, location, contract, apply, postedAt, role, cassification, technologies, tools, description, responsabilities } = post[0];
     return (
             <div>
                 {/* Job title and description div */}
@@ -31,12 +31,7 @@ const JobPost = (props) => {
                     <div class='col-span-2 ... shadow-2xl border-2 ml-44 mb-4 mt-16 rounded-lg'>
                         <div className='px-6 py-8'>
                         <h1 className='text-2xl py-6 font-semibold'>Description</h1>
-                        <p>Google is and always will be an engineering company. We hire people with a broad set of ical skills who are ready to tackle
-                             some of technology’s greatest challenges and make an impact on millions, if not billions, of users. At Google, engineers not only
-                              revolutionize search, they routinely work on massive scalability and storage solutions, large-scale applications and rely new platforms
-                             for developers around the world.
-                             From AdWords to Chrome, Android to Ye, Social to Local, Google engineers are changing the world.
-                        </p>
+                        <p>{description}</p>
                         <h1 className='text-2xl py-6 font-semibold'>Responsabilities</h1>
                         <p>{responsabilities}</p>
                         <h1 className='text-2xl py-6 font-semibold'>How to apply?</h1>
@@ -45,15 +40,19 @@ const JobPost = (props) => {
                     </div>
                     {/* Job Overview card on the right side with Job Description tags */}
                     <div className='shadow-xl ml-10 mr-20 rounded-lg border-2 h-auto mb-4 mt-16'>
-                        <div className='border-b-2' >
-                            <div className='py-4 ml-6'>
+                        <div className='border-b-2 flex justify-center' >
+                            <div className='py-4'>
                                 <span className='text-xl font-semibold'>Job Overview</span>
                             </div>
                         </div>
                         {/*Image div with Company Logo  */}
                         <div className='border-b-2 py-4'>
-                            <img className='my-8 mx-32' src={jobLogo}/>
-                            <span className='font-semibold ml-28 px-2'> {company} </span>
+                            <div className="flex justify-center">
+                                <img className='my-8 mx-32' src={jobLogo}/>
+                            </div>
+                            <div className="flex justify-center">
+                                <span className='font-semibold px-2'> {company} </span>
+                            </div>
                         </div>
                         <div className='ml-6'>
                             {/* Posted on heading with icon */}

@@ -14,6 +14,10 @@ import LandingPage from './components/LandingPage';
 import MyPosts from './components/MyPosts';
 import EditPost from './components/EditPost';
 import Profile from './components/Profile';
+import AppSettings from './components/AppSettings';
+import Partners from './components/Partners';
+import AddCompany from './components/AddCompany';
+import EditCompany from './components/EditCompany';
 
 function App() {
 
@@ -21,9 +25,9 @@ function App() {
     // <div className='App  w-full h-full'>
     <BrowserRouter>
       <div className="App">
-        <div className="sticky top-0 ..." >
+        <header className="sticky top-0 ... z-50" >
           <Navbar />
-        </div>
+        </header>
         <Switch>
           <Route exact path='/' component={LandingPage}/>
           <Route path='/home' component={Home}/>
@@ -34,6 +38,10 @@ function App() {
           <Route path='/profile' component={Profile} />
           <Route path='/post/:id' component={JobPost}/>
           <Route path='/createPost' component={CreatePost}/>
+          <Route path='/settings' component={AppSettings}/>
+          <Route path='/partners' component={Partners}/>
+          <Route path='/addCompany' component={AddCompany}/>
+          <Route path='/editCompany' component={EditCompany}/>
         </Switch>
       </div>  
      </BrowserRouter>); 

@@ -15,13 +15,15 @@ class CreatePost extends React.Component {
         company: '',
         location: '',
         contract: '',
+        description: '',
         apply: '',
         title: '',
         role : '',
         classification : '',
         technologies: [],
         tools: [],
-        responsabilities: '',    
+        responsabilities: '',
+        qualifications: '',    
         dataTools : []
     }
 
@@ -192,6 +194,10 @@ class CreatePost extends React.Component {
                                     </select>
                                 </div>
                                 <div className='mt-7'>
+                                    <label className='block text-lg font-semibold  text-gray-00'>Description</label>
+                                    <textarea className='w-full h-44 px-2 py-1 text-gray-700 bg-gray-200 rounded hover:bg-gray-100' cols="10" rows="20" onChange={this.handleChange} autoComplete="off" id="description" placeholder='Describe your post...' />
+                                </div>
+                                <div className='mt-7'>
                                     <label className='block text-lg font-semibold  text-gray-00'>How to apply?</label>
                                     <textarea className='w-full h-44 px-2 py-1 text-gray-700 bg-gray-200 rounded hover:bg-gray-100' cols="10" rows="20" onChange={this.handleChange} autoComplete="off" id="apply" placeholder='How to apply?' />
                                 </div>
@@ -240,6 +246,10 @@ class CreatePost extends React.Component {
                                 <div className='mt-2'>
                                     <label className='block text-lg font-semibold  text-gray-00'>Responsabilites</label>
                                     <textarea className='w-full h-44 px-2 py-1 text-gray-700 bg-gray-200 hover:bg-gray-100 rounded' cols="10" rows="20"  autoComplete="off" id="responsabilities" onChange={this.handleChange} placeholder='Responsabilities' />
+                                </div>
+                                <div className='mt-2'>
+                                    <label className='block text-lg font-semibold  text-gray-00'>Qualifications</label>
+                                    <textarea className='w-full h-44 px-2 py-1 text-gray-700 bg-gray-200 hover:bg-gray-100 rounded' cols="10" rows="20"  autoComplete="off" id="qualifications" onChange={this.handleChange} placeholder='Qualifications' />
                                 </div>
                             </div>
                         </div>

@@ -3,6 +3,7 @@ const initState = {
     filteredPosts: [],
     classificationFilter: '',
     technologiesFilter: '',
+    searchFilter: '',
     postErr: null
 };
 
@@ -32,12 +33,18 @@ const postsReducer = (state = initState, action) => {
                 ...state,
                 postErr: action.err 
             };
-        case 'FILTER_BT_TECHNOLOGIES_POSTS':
+        case 'FILTER_BY_TECHNOLOGIES_POSTS':
             return { 
                 ...state,
                 filteredPosts: action.payload.filteredPosts,
                 technologiesFilter: action.payload.technology.value
              };
+        case 'SEARCH_POSTS':
+            return { 
+                ...state,
+                filteredPosts: action.payload.filteredPosts,
+                searchFilter: action.payload.searchTerm
+                 };
         default:
             return state;
     }
