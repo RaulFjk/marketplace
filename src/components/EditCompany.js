@@ -88,7 +88,7 @@ class EditCompany extends React.Component{
                         </div>
                         <div class="mt-2">
                             <label className="block text-sm text-gray-600" for="cus_email">Headquarters Location</label>
-                            <input className="w-full px-2  py-4 text-gray-700 bg-gray-200 rounded" defaultValue={this.state.headquarters} id="headquarters" onChange={this.handleChange} type="text" required="" placeholder="Headquarters" />
+                            <input className="w-full px-2  py-2 text-gray-700 bg-gray-200 rounded" defaultValue={this.state.headquarters} id="headquarters" onChange={this.handleChange} type="text" required="" placeholder="Headquarters" />
                         </div>
                         <div className="mt-2">
                             <label className=" block text-sm text-gray-600" for="cus_email">Industry</label>

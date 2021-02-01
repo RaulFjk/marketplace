@@ -46,11 +46,11 @@ class AddCompany extends React.Component{
                         <p className="text-gray-800 text-2xl my-4 font-medium">Company Information</p>
                         <div className="">
                             <label className="block text-sm text-gray-00" for="cus_name">Name</label>
-                            <input className="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" id="name" onChange={this.handleChange} type="text" required="" placeholder="Company Name"/>
+                            <input className="w-full px-2 py-1 text-gray-700 bg-gray-200 rounded" id="name" onChange={this.handleChange} type="text" required="" placeholder="Company Name"/>
                         </div>
                         <div class="mt-2">
                             <label className="block text-sm text-gray-600" for="cus_email">Headquarters Location</label>
-                            <input className="w-full px-5  py-4 text-gray-700 bg-gray-200 rounded" id="headquarters" onChange={this.handleChange} type="text" required="" placeholder="Headquarters" />
+                            <input className="w-full px-2  py-4 text-gray-700 bg-gray-200 rounded" id="headquarters" onChange={this.handleChange} type="text" required="" placeholder="Headquarters" />
                         </div>
                         <div className="mt-2">
                             <label className=" block text-sm text-gray-600" for="cus_email">Industry</label>

@@ -2,6 +2,7 @@ import authReducer from './authReducer';
 import postsReducer from './postsReducer';
 import companiesReducer from './companiesReducer';
 import categoriesReducer from './categoriesReducer';
+import toolsReducer from './toolsReducer';
 import { combineReducers } from 'redux';
 import { firestoreReducer } from 'redux-firestore';
 import { firebaseReducer } from 'react-redux-firebase';
@@ -14,8 +15,9 @@ const rootReducer = combineReducers({
     post: postsReducer,
     company: companiesReducer,
     category: categoriesReducer,
-    classification: classificationsReducer,
     technology: techonologiesReducer,
+    classification: classificationsReducer,
+    tools: toolsReducer,
     firestore: firestoreReducer,
     firebase: firebaseReducer
 });
