@@ -4,8 +4,20 @@ import JobBoardComponent from './JobBoardComponent';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
+import  Pagination  from './Pagination';
 
 class MyPosts extends React.Component{
+
+    state = {
+        currentPage: 1,
+        postsPerPage: 5
+    }
+    
+    paginate = (pageNumber) =>{
+        this.setState({
+            currentPage: pageNumber
+        });
+    }
 
     render() {
 
@@ -14,16 +26,20 @@ class MyPosts extends React.Component{
             return <Redirect to ='/signin' />;
         }
 
+        const indexOfLastPost = this.state.currentPage * this.state.postsPerPage;
+        const indexOfFirstPost = indexOfLastPost - this.state.postsPerPage;
+        const currentPosts = posts ? (posts.slice(indexOfFirstPost, indexOfLastPost)) : [];
+
         return(
             <div>
                 <div className='flex ml-10'>
                     <span className='text-3xl text-red-500 py-4 mr-1'>My</span>
                     <span className='text-3xl text-gray-700 py-4 '>Posts</span>
                 </div>
-                {posts.length === 0 ? (
+                {currentPosts.length === 0 ? (
                     <p className="mx-4">It looks like you didn't pos any jobs yet...</p>
                     ) : (
-                    posts.map( post => (
+                    currentPosts.map( post => (
                      //   <Link to={'/post/' + post.id} key={post.id}>
                             <JobBoardComponent
                             post={post}
@@ -34,6 +50,7 @@ class MyPosts extends React.Component{
                     ))
                     )
                 }
+                <Pagination postsPerPage={this.state.postsPerPage} totalPosts={posts.length} paginate={this.paginate} />
             </div> 
         );
     }

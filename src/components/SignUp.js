@@ -40,7 +40,7 @@ render() {
                     <p className="text-gray-800 font-medium mb-4 font-bold text-2xl">Sign Up</p>
                     <div className="">
                         <label className="block text-base text-dark font-semibold" for="cus_email">Email*</label>
-                        <input className="w-full px-5  py-4 text-gray-700 bg-gray-200 rounded" required onChange={this.handleChange} id="email" type="text"  placeholder="Your Email" aria-label="Email"/>
+                        <input className="w-full px-5  py-1 text-gray-700 bg-gray-200 rounded" required onChange={this.handleChange} id="email" type="text"  placeholder="Your Email" aria-label="Email"/>
                     </div>
                     <div className="mt-2">
                         <label className="block text-base font-semibold text-dark" for="firstName">First Name*</label>

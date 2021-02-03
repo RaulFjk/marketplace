@@ -3,11 +3,15 @@ import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { signOut } from '../store/actions/authActions';
 import ReactDOM from 'react-dom';
+import Notifications from './Notifications';
+import { compose } from 'redux';
+import { firestoreConnect } from 'react-redux-firebase';
 
 class SignedInLinks extends React.Component {
 
     state = {
-        open : false
+        open : false,
+        notification: false
     }
 
    componentDidMount() {
@@ -23,12 +27,13 @@ class SignedInLinks extends React.Component {
     
         if (!domNode || !domNode.contains(event.target)) {
             this.setState({
-                open: false
+                open: false,
+                notification: false
             });
         }
     }
 
-    handleDropdown() {
+    handleDropdown = () => {
         if (this.state.open === false){
             this.setState({
                 open: true
@@ -40,10 +45,24 @@ class SignedInLinks extends React.Component {
         }
     }
 
+    handleNotification = () => {
+
+        if (this.state.notification === false){
+            this.setState({
+                notification: true
+            });
+        }else{
+            this.setState({
+                notification: false
+            });
+        }
+    }
+
     handleNavClick() {
         if (this.state.open === true){
             this.setState({
-                open: false
+                open: false,
+                notification: false
             }); 
         }
     }
@@ -51,7 +70,7 @@ class SignedInLinks extends React.Component {
  
 
     render() {
-        const { profile } = this.props;
+        const { profile, notifications } = this.props;
         return (   
             <div className='flex my-2'>
                 <div className='justify-center'>
@@ -68,9 +87,6 @@ class SignedInLinks extends React.Component {
                         <li className="inline-block text-white no-underline hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2">
                             <NavLink onClick={() => this.handleNavClick()} to='/partners'>Partners</NavLink>
                         </li>
-                        <li className="inline-block text-white no-underline hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2">
-                            <NavLink onClick={() => this.handleNavClick()} to='/contact'>Contact Us</NavLink>
-                        </li>
                         {profile.role !== 'student' && 
                             <li>
                             <NavLink onClick={() => this.handleNavClick()} className="bg-red-600 text-white pl-2 pr-5 py-2 rounded border border-red-600  hover:bg-blue-500 mx-2 hover:text-gray-100" to='/createPost'>
@@ -83,6 +99,7 @@ class SignedInLinks extends React.Component {
                             </NavLink>
                             </li>
                         }
+                        {profile.role === 'admin' &&
                         <li>
                             <NavLink onClick={() => this.handleNavClick()} className="bg-red-600 text-white pl-2 pr-5 py-2 rounded border border-red-600  hover:bg-blue-500 mx-2 hover:text-gray-100" to='/settings'>
                                 <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 20 20" className=" text-white fill-current w-6 h-6 mr-1 inline-block">
@@ -93,22 +110,31 @@ class SignedInLinks extends React.Component {
                                 </svg>
                                 Manage App 
                             </NavLink>
-                            </li>
+                        </li> }
                         <li>
-                            <a onClick={this.props.signOut} className="bg-transparent text-white px-5 py-2  rounded border border-gray-300  mx-2 -2 hover:bg-gray-100 hover:text-gray-700" >Sign Out</a>
+                            <a onClick={this.props.signOut} className="bg-transparent text-white px-5 py-2 mr-2 rounded border border-gray-300  mx-2 -2 hover:bg-gray-100 hover:text-gray-700" >Sign Out</a>
                         </li>
+                        {profile.role === 'student' && 
                         <li>
-                                <button className="rounded-full bg-gradient-to-r from-green-400 to-blue-500 ... text-xl p-3 mx-4 cursor-pointer focus:outline-none" onClick={() => this.handleDropdown()} >
+                            <button class="relative z-10 block rounded-md bg-gradient-to-r from-green-400 to-blue-500 ... p-2 focus:outline-none" onClick={() => this.handleNotification()}>
+                                <svg class="h-5 w-5 text-red-800" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+                                </svg>
+                            </button>
+                            {this.state.notification === true && (
+                                <div>
+                                    <Notifications notifications={notifications} /> 
+                                </div> ) } 
+                        </li> }
+                        <li>
+                                <button className="rounded-full bg-gradient-to-r from-green-400 to-blue-500 ... text-xl p-3 mx-4 cursor-pointer focus:outline-none"  >
                                     {profile.initials}
                                 </button>
                                 {/* <div x-show="dropdownOpen"  class="fixed inset-0 h-full w-full z-10"></div> */}
                                 {this.state.open === true && (
-                                    <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-50">
+                                <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-50">
                                     <NavLink onClick={() => this.handleNavClick()} className="block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-800 hover:text-white" to='/profile'>
                                     Your profile
-                                    </NavLink>
-                                    <NavLink onClick={() => this.handleNavClick()}  className="block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-800 hover:text-white" to='/notifications'>
-                                    Notifications
                                     </NavLink>
                                 </div>
                                 )}
@@ -129,7 +155,8 @@ class SignedInLinks extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        profile: state.firebase.profile
+        profile: state.firebase.profile,
+        notifications: state.firestore.ordered.notifications || []
     }
 }
 
@@ -139,4 +166,8 @@ const mapDispatchToProps = (dispatch) => {
     };
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(SignedInLinks);
+export default compose(
+ connect(mapStateToProps,mapDispatchToProps),
+ firestoreConnect((props) => [
+     { collection: "notifications", limit:4 }])
+ )(SignedInLinks);

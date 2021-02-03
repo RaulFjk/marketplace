@@ -29,10 +29,10 @@ class SignIn extends React.Component {
         if(auth.uid) return <Redirect to='/home' />;
         return (
             <div className="grid grid-cols-6 w-full h-full place-items-center bg-fixed  bg-center bg-cover bg-no-repeat fixed ..." style= {{ backgroundImage: `url('${backG}')` }}>
-                <div className="col-start-2 col-span-4 p-12 bg-blue-600 rounded-lg shadow-xl bg-transparent bg-opacity-60 sm:w-8/12 md:w-1/2 lg:w-7/12">
+                <div className="col-start-2 col-span-4 p-12 bg-blue-600 mb-5 rounded-lg shadow-xl bg-transparent bg-opacity-60 sm:w-8/12 md:w-1/2 lg:w-7/12">
                     <form className="" onSubmit={this.handleSubmit}>
                         <div className="flex justify-center mb-5"><img className="w-36 h-36 bg-white rounded-full" src={ubbLogo}  /></div>
-                        <h1 className="text-2xl w-full font-bold text-dark flex justify-center mb-5 "><span>Sign in</span></h1>
+                        <h1 className="text-3xl w-full font-bold text-dark flex justify-center mb-5 "><span>Sign in</span></h1>
                         <label for="email" className="block text-s font-semibold text-dark uppercase">E-mail</label>
                         <input id="email" type="email" name="email" placeholder="Enter your email"  onChange={this.handleChange} className="block rounded-lg w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner" required />
                         <label for="password" className="block mt-2 text-s font-semibold text-dark uppercase">Password</label>

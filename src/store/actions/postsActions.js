@@ -26,7 +26,7 @@ export const createPost = (post) => {
             responsabilities,
             qualifications,
             firstName: profile.firstName,
-            lasName: profile.lastName,
+            lastName: profile.lastName,
             userId: authorid,
             postedAt: new Date()
 

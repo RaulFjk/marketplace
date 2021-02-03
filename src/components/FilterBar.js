@@ -47,7 +47,7 @@ render() {
         <div className='py-16 bg-blue-600 bg-transparent bg-opacity-60' >
             {/* Div for text upon filter input fields */}
         <div className='flex justify-center mr-72 mb-10'>
-            <span className='mr-1 text-4xl text-red-700 mb-1'>{this.props.postsNumber}+</span>
+            <span className='mr-1 text-4xl text-red-700 mb-1'>{this.props.postsNumber}+</span> 
             <span className='text-4xl text-white mb-1'>Browse Jobs, Projects, Conferences</span>
         </div>
             <div className='flex justify-center mr-2 '>
@@ -91,7 +91,7 @@ render() {
                     />
                 </div>
                 <div className="py-6">
-                    <button className="bg-blue-800 text-white my-1  px-4 py-1 rounded border border-gray-300  mx-2 -2 hover:bg-gray-100 hover:text-gray-700">Search</button>
+                    <button className="bg-blue-800 text-white my-1  px-4 py-1 rounded border border-gray-300  mx-2 -2 hover:bg-gray-100 hover:text-gray-700" onClick={this.handleSubmit}>Search</button>
                 </div>
             </div>
         </div>
