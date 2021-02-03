@@ -9,35 +9,20 @@ import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { Redirect } from 'react-router-dom';
+import Pagination from './Pagination';
 
 class Home extends React.Component {
 
-
-    // const [jobs, setJobs] = useState([]);
-    // const [filters, setFilters] = useState([]);
-
-    // useEffect(() => setJobs(data), []);
-
+    state = {
+        currentPage: 1,
+        postsPerPage: 5
+    }
     
-
-    // filterFunc = ({ role, level, tools, languages }) => {
-    //     if (filters.length === 0){
-    //     return true;
-    //     }
-    //     const tags = [role, level];
-        
-    //     if (tools) {
-    //     tags.push(...tools);
-    //     }
-
-    //     if (languages) {
-    //     tags.push(...languages);
-    //     }
-    // // macar un tag sa fie in anunt
-    //     // return tags.some((tag) => filters.includes(tag));
-    //     // returneaza doar cele care au toate tagurile din filtru
-    //     return filters.every((filter) => tags.includes(filter));
-    // };
+    paginate = (pageNumber) =>{
+        this.setState({
+            currentPage: pageNumber
+        });
+    }
 
     handleTagClick = (tag) => {
         // // avoid re-adding the tag
@@ -72,9 +57,12 @@ class Home extends React.Component {
 
     render(){
 
-       
-        
         const{ posts, auth, location, filteredPosts, classificationFilter, technologiesFilter, searchFilter } = this.props; 
+
+        const indexOfLastPost = this.state.currentPage * this.state.postsPerPage;
+        const indexOfFirstPost = indexOfLastPost - this.state.postsPerPage;
+        const currentPosts = posts ? (posts.slice(indexOfFirstPost, indexOfLastPost)) : [];
+
         const postsNumber = posts ? (posts.length) : ("0");
         if (!auth.uid){
             return <Redirect to ='/signin' />;
@@ -94,7 +82,7 @@ class Home extends React.Component {
                     </div>
                     {/* Tags Filter above the jobs ---------->>>> must be adapted <<<<<<<<<<<<<<<<<------------------------- */}
                     {filteredPosts.length === 0 ? (
-                    <p>Looks like there is no post...</p>
+                    <p className="ml-5">Upsss, it looks like there is no such post...</p>
                     ) : (
                     filteredPosts.map( post => (
                         <Link to={'/post/' + post.id} key={post.id}>
@@ -120,10 +108,10 @@ class Home extends React.Component {
                     <span className='text-3xl text-blue-400 font-bold py-4 '>Posts</span>
                 </div>
                 {/* Tags Filter above the jobs ---------->>>> must be adapted <<<<<<<<<<<<<<<<<------------------------- */}
-                {posts.length === 0 ? (
-                <p>Jobs are loading...</p>
+                {currentPosts.length === 0 ? (
+                <p className="ml-5">Posts are loading...</p>
                 ) : (
-                posts.map( post => (
+                    currentPosts.map( post => (
                     <Link to={'/post/' + post.id} key={post.id}>
                         <JobBoardComponent
                         post={post}
@@ -134,6 +122,7 @@ class Home extends React.Component {
                 ))
                 )
             }
+                <Pagination postsPerPage={this.state.postsPerPage} totalPosts={posts.length} paginate={this.paginate} />
             </main>
             );
         }

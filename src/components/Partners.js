@@ -7,7 +7,7 @@ import { compose } from 'redux';
 
 
 const Partners = (props) => {
-    const{ companies, auth } = props; 
+    const{ companies, auth, profile } = props; 
 
     if (!auth.uid){
         return <Redirect to ='/signin' />;
@@ -30,13 +30,14 @@ const Partners = (props) => {
                 ))
                 )
             }
+        { profile.role === 'admin' &&
         <div className="col-span-1 sm:col-span-4 md:col-span-2 lg:col-span-1 xl:col-span-1 flex flex-col items-center">
         <NavLink className="bg-white mt-9 focus:outline-none" to='/addCompany'>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-64 w-64 bg-white" viewBox="0 0 24 24" stroke="gray">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
             </svg>
           </NavLink>
-        </div>
+        </div> }
     </div> 
     
     
@@ -50,6 +51,7 @@ const mapStateToProps = (state) => {
     return {
         companies: state.firestore.ordered.companies || [],
         auth: state.firebase.auth,
+        profile: state.firebase.profile
 
     };
 };

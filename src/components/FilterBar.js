@@ -47,8 +47,9 @@ render() {
         <div className='py-16 bg-blue-600 bg-transparent bg-opacity-60' >
             {/* Div for text upon filter input fields */}
         <div className='flex justify-center mr-72 mb-10'>
-            <span className='mr-1 text-4xl text-red-700 mb-1'>{this.props.postsNumber}+</span> 
-            <span className='text-4xl text-white mb-1'>Browse Jobs, Projects, Conferences</span>
+            { this.props.postsNumber !== undefined &&
+            <span className='mr-1 text-4xl text-red-700 mb-1'>{this.props.postsNumber}+</span> }
+            <span className='text-4xl text-white mb-1'>Browse Jobs, Projects, Collaborations</span>
         </div>
             <div className='flex justify-center mr-2 '>
                 <div className='px-3 bg-indigo-300 bg-transparent bg-opacity-40 py-5'>

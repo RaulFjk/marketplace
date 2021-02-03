@@ -23,7 +23,8 @@ class CreatePost extends React.Component {
         technologies: [],
         tools: [],
         responsabilities: '',
-        qualifications: '',    
+        qualifications: '',
+        companyLogo: '',    
         dataTools : []
     }
 
@@ -68,7 +69,8 @@ class CreatePost extends React.Component {
 
         if(e.target.id === 'title'){
             this.setState({
-                company: this.props.company.name
+                company: this.props.company.name,
+                companyLogo: this.props.company.fileUrl
             })
         }
         if(e.target.value !== ' '){

@@ -18,6 +18,7 @@ import AppSettings from './components/AppSettings';
 import Partners from './components/Partners';
 import AddCompany from './components/AddCompany';
 import EditCompany from './components/EditCompany';
+import RecoverPassword from './components/RecoverPassord';
 
 function App() {
 
@@ -42,6 +43,7 @@ function App() {
           <Route path='/partners' component={Partners}/>
           <Route path='/addCompany' component={AddCompany}/>
           <Route path='/editCompany' component={EditCompany}/>
+          <Route path='/recoverPassword' component={RecoverPassword}/>
         </Switch>
       </div>  
      </BrowserRouter>); 

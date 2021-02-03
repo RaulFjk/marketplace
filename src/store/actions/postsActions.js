@@ -7,7 +7,7 @@ export const createPost = (post) => {
         const firestore = getFirestore();
         const profile = getState().firebase.profile;
         const authorid = getState().firebase.auth.uid;
-        const { company, location, contract, apply, description, title, role, technologies,tools, classification, responsabilities, qualifications } = post;
+        const { company, location, contract, apply, description, title, role, technologies,tools, companyLogo, classification, responsabilities, qualifications } = post;
         // const techs = post.technologies;
         // const toolsA = post.tools;
         // const technolgies = techs.map(function (technology) { return technology.language; });
@@ -25,6 +25,7 @@ export const createPost = (post) => {
             tools,
             responsabilities,
             qualifications,
+            companyLogo,
             firstName: profile.firstName,
             lastName: profile.lastName,
             userId: authorid,

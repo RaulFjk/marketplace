@@ -112,7 +112,7 @@ class SignedInLinks extends React.Component {
                             </NavLink>
                         </li> }
                         <li>
-                            <a onClick={this.props.signOut} className="bg-transparent text-white px-5 py-2 mr-2 rounded border border-gray-300  mx-2 -2 hover:bg-gray-100 hover:text-gray-700" >Sign Out</a>
+                            <a onClick={this.props.signOut} className="bg-transparent text-white px-5 py-2 mr-4 rounded border border-gray-300  mx-2 -2 hover:bg-gray-100 hover:text-gray-700" >Sign Out</a>
                         </li>
                         {profile.role === 'student' && 
                         <li>
@@ -127,7 +127,7 @@ class SignedInLinks extends React.Component {
                                 </div> ) } 
                         </li> }
                         <li>
-                                <button className="rounded-full bg-gradient-to-r from-green-400 to-blue-500 ... text-xl p-3 mx-4 cursor-pointer focus:outline-none"  >
+                                <button className="rounded-full bg-gradient-to-r from-green-400 to-blue-500 ... text-xl p-3 mr-4 ml-2 cursor-pointer focus:outline-none"  >
                                     {profile.initials}
                                 </button>
                                 {/* <div x-show="dropdownOpen"  class="fixed inset-0 h-full w-full z-10"></div> */}

@@ -222,11 +222,6 @@ class AppSettings extends React.Component{
                         <tr>
                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <div class="flex items-center">
-                                <div class="flex-shrink-0 w-10 h-10">
-                                    <img class="w-full h-full rounded-full"
-                                        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                                        alt="" />
-                                </div>
                                 <div class="ml-3">
                                 <input className="w-full px-2 py-2 text-gray-700 bg-gray-200 border border-2 border-gray-400 rounded" onChange={this.handleAddChange} id="input" type="text"  placeholder="Enter here...." required="" />
                                 </div>
@@ -256,11 +251,6 @@ class AppSettings extends React.Component{
                         <tr>
                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <div class="flex items-center">
-                                <div class="flex-shrink-0 w-10 h-10">
-                                    <img class="w-full h-full rounded-full"
-                                        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                                        alt="" />
-                                </div>
                                 <div class="ml-3">
                                     <p class="text-gray-900 whitespace-no-wrap">
                                        {category.name}
@@ -296,11 +286,6 @@ class AppSettings extends React.Component{
                         <tr key={classification.id}>
                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <div class="flex items-center">
-                                <div class="flex-shrink-0 w-10 h-10">
-                                    <img class="w-full h-full rounded-full"
-                                        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                                        alt="" />
-                                </div>
                                 <div class="ml-3">
                                     <p class="text-gray-900 whitespace-no-wrap">
                                        {classification.name}
@@ -335,11 +320,6 @@ class AppSettings extends React.Component{
                         <tr>
                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <div class="flex items-center">
-                                <div class="flex-shrink-0 w-10 h-10">
-                                    <img class="w-full h-full rounded-full"
-                                        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                                        alt="" />
-                                </div>
                                 <div class="ml-3">
                                     <p class="text-gray-900 whitespace-no-wrap">
                                        {technology.language}
@@ -384,11 +364,6 @@ class AppSettings extends React.Component{
                         return (<tr>
                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <div class="flex items-center">
-                                <div class="flex-shrink-0 w-10 h-10">
-                                    <img class="w-full h-full rounded-full"
-                                        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                                        alt="" />
-                                </div>
                                 <div class="ml-3">
                                     <p class="text-gray-900 whitespace-no-wrap">
                                        {tool.name}

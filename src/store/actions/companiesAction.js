@@ -4,21 +4,20 @@ export const addCompany = (company) => {
     // because we added withExtraagument to thunk in index.js, we can now pass one more Argument to the thunk return statement
     return (dispatch, getState, { getFirebase, getFirestore }) => {
         //make async call to database
+        const firebase = getFirebase();
         const firestore = getFirestore();
         // const profile = getState().firebase.profile;
         // const authorid = getState().firebase.auth.uid;
-        const { name, headquarter, industry, size, website, description } = company;
-        // const techs = post.technologies;
-        // const toolsA = post.tools;
-        // const technolgies = techs.map(function (technology) { return technology.language; });
-        // const tools = toolsA.map(function (tool) { return tool.name; });
+        const { name, headquarters, industry, size, website, description, fileUrl } = company;
+        
         firestore.collection('companies').add({
             name,
-            headquarter,
+            headquarters,
             industry,
             size,
             website,
-            description
+            description,
+            fileUrl
         }).then(() => {
             dispatch({ type: 'ADD_COMPANY', company });
         }).catch((err) => {

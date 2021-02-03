@@ -39,23 +39,23 @@ render() {
                 <form className="p-10 mx-4 my-5" onSubmit={this.handleSubmbit}>
                     <p className="text-gray-800 font-medium mb-4 font-bold text-2xl">Sign Up</p>
                     <div className="">
-                        <label className="block text-base text-dark font-semibold" for="cus_email">Email*</label>
-                        <input className="w-full px-5  py-1 text-gray-700 bg-gray-200 rounded" required onChange={this.handleChange} id="email" type="text"  placeholder="Your Email" aria-label="Email"/>
+                        <label className="block text-base text-dark font-bold" for="cus_email">Email*</label>
+                        <input className="w-full px-5  py-1 text-gray-700 bg-gray-200 rounded" required onChange={this.handleChange} id="email" type="text"   aria-label="Email"/>
                     </div>
                     <div className="mt-2">
-                        <label className="block text-base font-semibold text-dark" for="firstName">First Name*</label>
-                        <input className="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" required id="firstName" onChange={this.handleChange}  type="text" placeholder="Your Name" aria-label="Name"/>
+                        <label className="block text-base font-bold text-dark" for="firstName">First Name*</label>
+                        <input className="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" required id="firstName" onChange={this.handleChange}  type="text"  aria-label="Name"/>
                     </div>
                     <div className="mt-2">
-                        <label className="block text-base font-semibold text-dark" for="lastName">Last Name*</label>
-                        <input className="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" required id="lastName" onChange={this.handleChange} type="text"  placeholder="Your Name" aria-label="Name"/>
+                        <label className="block text-base font-bold text-dark" for="lastName">Last Name*</label>
+                        <input className="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" required id="lastName" onChange={this.handleChange} type="text"   aria-label="Name"/>
                     </div>
                     <div className="mt-2">
-                        <label className="block text-base font-semibold text-dark" for="passowrd">Password*</label>
+                        <label className="block text-base font-bold text-dark" for="passowrd">Password*</label>
                         <input className="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" required id="password" onChange={this.handleChange} type="password"   aria-label="Password"/>
                     </div>
                     <div className="mt-2">
-                        <label className="block text-base font-semibold text-dark" for="role">Member Type(Role)*</label>
+                        <label className="block text-base font-bold text-dark" for="role">Member Type(Role)*</label>
                         <select className="w-full px-2 py-2 text-gray-700 bg-gray-200 rounded capitalize"  required defaultValue="" id="role" onChange={this.handleChange}>
                             <option hidden value=""></option>
                             {categories.length === 0 ? (<option></option>): (categories.map( category => ( <option className="capitalize" value={category.name}>{category.name}</option>

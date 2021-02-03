@@ -4,6 +4,7 @@ import backG from '../header-wall.jpg';
 import { connect } from 'react-redux';
 import { signIn } from '../store/actions/authActions';
 import { Redirect } from 'react-router';
+import { Link } from 'react-router-dom';
 
 class SignIn extends React.Component {
 
@@ -33,14 +34,14 @@ class SignIn extends React.Component {
                     <form className="" onSubmit={this.handleSubmit}>
                         <div className="flex justify-center mb-5"><img className="w-36 h-36 bg-white rounded-full" src={ubbLogo}  /></div>
                         <h1 className="text-3xl w-full font-bold text-dark flex justify-center mb-5 "><span>Sign in</span></h1>
-                        <label for="email" className="block text-s font-semibold text-dark uppercase">E-mail</label>
-                        <input id="email" type="email" name="email" placeholder="Enter your email"  onChange={this.handleChange} className="block rounded-lg w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner" required />
-                        <label for="password" className="block mt-2 text-s font-semibold text-dark uppercase">Password</label>
-                        <input id="password" type="password" name="password" placeholder="Enter your password"  onChange={this.handleChange} className="block rounded-lg w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner" required />
+                        <label for="email" className="block text-s font-bold text-dark uppercase">E-mail</label>
+                        <input id="email" type="email" name="email" onChange={this.handleChange} className="block rounded-lg w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner" required />
+                        <label for="password" className="block mt-2 text-s font-bold text-dark uppercase">Password</label>
+                        <input id="password" type="password" name="password"  onChange={this.handleChange} className="block rounded-lg w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner" required />
                         <button type="submit" className="w-full py-3 mt-6 font-medium tracking-widest rounded-md text-white uppercase bg-blue-800 shadow-lg focus:outline-none hover:bg-gray-900 hover:shadow-none">
                             Sign in
                         </button>
-                        <p className="flex justify-between inline-block mt-4 text-s font-semibold text-white cursor-pointer hover:text-black">Forgot password?</p>
+                        <Link to={'/recoverPassword'} > <p className="flex justify-between inline-block mt-4 text-s font-semibold text-white cursor-pointer hover:text-black">Forgot password?</p></Link>
                         {authError && (
                             <div>
                                 <span className="text-red-600 font-bold text-lg">{authError}. Please try again!</span>

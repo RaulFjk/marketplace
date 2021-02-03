@@ -23,6 +23,22 @@ export const signOut = () => {
     };
 };
 
+export const recoverPassword = (email) => {
+    return(dispatch, getState, {getFirebase}) => {
+        const firebase = getFirebase();
+        firebase.auth().sendPasswordResetEmail(email).then(() => {
+            window.alert("An email has been sent to you! Please check your inbox.");
+            dispatch({type: 'RECOVER_PASSWORD_SUCCESS'});
+        }).catch(error => {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+
+            window.alert("Message:" + errorMessage)
+            dispatch({type: 'RECOVER_PASSWORD_ERROR'});
+        })
+    }
+}
+
 export const signUp = (newUser) => {
     return (dispatch, getState, {getFirebase, getFirestore}) => {
         const firebase = getFirebase();

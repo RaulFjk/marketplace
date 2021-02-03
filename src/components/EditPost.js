@@ -203,11 +203,11 @@ class EditPost extends React.Component {
                                 </div>
                                 <div className='mt-2'>
                                     <label className='block text-lg font-semibold  text-gray-00' for="location">Location</label>
-                                    <input className='w-full px-2 py-1 text-gray-700 bg-gray-200 rounded hover:bg-gray-100' defaultValue={location}  onChange={this.handleChange} id="location" placeholder='Location' />
+                                    <input className='w-full px-2 py-1 text-gray-700 bg-gray-200 rounded hover:bg-gray-100' defaultValue={this.state.location}  onChange={this.handleChange} id="location" placeholder='Location' />
                                 </div>
                                 <div className='mt-2'>
                                     <label className='block text-lg font-semibold  text-gray-00' for="contract">Contract</label>
-                                    <select className='w-full px-2 py-1 text-gray-700 bg-gray-200 rounded' value={contract} onChange={this.handleChange} id="contract" >
+                                    <select className='w-full px-2 py-1 text-gray-700 bg-gray-200 rounded' defaultValue={this.state.contract} onChange={this.handleChange} id="contract" >
                                         <option hidden value="" className='w-full px-2 py-1 text-gray-700 bg-gray-200 rounded'>Contract Type</option>
                                         <option value="Full-Time" className='w-full px-2 py-1 text-gray-700 bg-gray-200 rounded'>Full-Time</option>
                                         <option value="Part-Time" className='w-full px-2 py-1 text-gray-700 bg-gray-200 rounded'>Part-Time</option>
@@ -216,11 +216,11 @@ class EditPost extends React.Component {
                                 </div>
                                 <div className='mt-7'>
                                     <label className='block text-lg font-semibold  text-gray-00'>Description</label>
-                                    <textarea defaultValue={description} className='w-full h-44 px-2 py-1 text-gray-700 bg-gray-200 rounded hover:bg-gray-100' cols="10" rows="20" onChange={this.handleChange} autoComplete="off" id="description" placeholder='Describe your post...' />
+                                    <textarea defaultValue={this.state.description} className='w-full h-44 px-2 py-1 text-gray-700 bg-gray-200 rounded hover:bg-gray-100' cols="10" rows="20" onChange={this.handleChange} autoComplete="off" id="description" placeholder='Describe your post...' />
                                 </div>
                                 <div className='mt-7'>
                                     <label className='block text-lg font-semibold  text-gray-00'>How to apply?</label>
-                                    <textarea className='w-full h-44 px-2 py-1 text-gray-700 bg-gray-200 rounded hover:bg-gray-100' defaultValue={apply} cols="10" rows="20" onChange={this.handleChange} autoComplete="off" id="apply" placeholder='How to apply?' />
+                                    <textarea className='w-full h-44 px-2 py-1 text-gray-700 bg-gray-200 rounded hover:bg-gray-100' defaultValue={this.state.apply} cols="10" rows="20" onChange={this.handleChange} autoComplete="off" id="apply" placeholder='How to apply?' />
                                 </div>
                                 <div className="mt-4 flex justify-center">
                                     <button className="w-full mx-5 py-3 text-white font-light tracking-wider bg-red-600 rounded" type="submit">
@@ -240,12 +240,12 @@ class EditPost extends React.Component {
                             <div className='mr-10'>
                                 <div className="mt-2">
                                     <label className='block text-lg font-semibold  text-gray-00'>Job Title</label>
-                                    <input className='w-full px-2 py-1 text-gray-700 bg-gray-200 rounded hover:bg-gray-100' defaultValue={title} onChange={this.handleChange} placeholder='Job Title' id="title" />
+                                    <input className='w-full px-2 py-1 text-gray-700 bg-gray-200 rounded hover:bg-gray-100' defaultValue={this.state.title} onChange={this.handleChange} placeholder='Job Title' id="title" />
                                 </div>
                                 
                                 <div className='mt-2'>
                                     <label className='block text-lg font-semibold  text-gray-00'>Role</label>
-                                    <input className='w-full px-2 py-1 text-gray-700 bg-gray-200 rounded hover:bg-gray-100' defaultValue={role} onChange={this.handleChange} placeholder='Role' id="role" />
+                                    <input className='w-full px-2 py-1 text-gray-700 bg-gray-200 rounded hover:bg-gray-100' defaultValue={this.state.role} onChange={this.handleChange} placeholder='Role' id="role" />
                                 </div>
                                 <div className='mt-2'>
                                     <label className='block text-lg font-semibold  text-gray-00'>Classification</label>
@@ -267,11 +267,11 @@ class EditPost extends React.Component {
                                 </div>
                                 <div className='mt-2'>
                                     <label className='block text-lg font-semibold  text-gray-00'>Responsabilites</label>
-                                    <textarea className='w-full h-44 px-2 py-1 text-gray-700 bg-gray-200 hover:bg-gray-100 rounded' defaultValue={responsabilities} cols="10" rows="20"  autoComplete="off" id="responsabilities" onChange={this.handleChange} placeholder='Responsabilities' />
+                                    <textarea className='w-full h-44 px-2 py-1 text-gray-700 bg-gray-200 hover:bg-gray-100 rounded' defaultValue={this.state.responsabilities} cols="10" rows="20"  autoComplete="off" id="responsabilities" onChange={this.handleChange} placeholder='Responsabilities' />
                                 </div>
                                 <div className='mt-2'>
                                     <label className='block text-lg font-semibold  text-gray-00'>Qualifications</label>
-                                    <textarea className='w-full h-44 px-2 py-1 text-gray-700 bg-gray-200 hover:bg-gray-100 rounded' defaultValue={qualifications} cols="10" rows="20"  autoComplete="off" id="qualifications" onChange={this.handleChange} placeholder='Qualifications' />
+                                    <textarea className='w-full h-44 px-2 py-1 text-gray-700 bg-gray-200 hover:bg-gray-100 rounded' defaultValue={this.state.qualifications} cols="10" rows="20"  autoComplete="off" id="qualifications" onChange={this.handleChange} placeholder='Qualifications' />
                                 </div>
                             </div>
                         </div>

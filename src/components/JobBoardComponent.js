@@ -4,10 +4,12 @@ import logo from '../eyecam-co.svg';
 import moment from 'moment';
 import { NavLink, Redirect, useHistory } from 'react-router-dom';
 import firebase from '../config/fbConfig';
+import { compose } from 'redux';
 import { connect } from 'react-redux'; 
+import { firestoreConnect } from 'react-redux-firebase';
 import { deletePost } from '../store/actions/postsActions';
 
-const JobBoardComponent = ({ edit, deletePost, post, post: {
+const JobBoardComponent = ({ companyData, edit, deletePost, post, post: {
     company,
     featured,
     title,
@@ -15,6 +17,7 @@ const JobBoardComponent = ({ edit, deletePost, post, post: {
     postedAt,
     contract,
     location,
+    companyLogo
 },
 id,
 handleTagClick
@@ -46,21 +49,24 @@ handleTagClick
     }
 
     const isNew = true;
-   
 
+    const today = new Date().getDay();
+    const postedAtDate= moment(postedAt.toDate()).day();
+   
+    console.log(companyData);
     return ( 
         // If job is featured then it should have a blue margin on the left border side
         <div className={`flex flex-col bg-white shadow-xl border-gray-200 my-16 mx-10 p-6 rounded hover:bg-gray-100
         ${featured && 'border-l-4 border-blue-500 border-solid'} sm:flex-row sm:my-4`} >
             <div>
                 {/* sm: -> is a breakpoint which says that mt should pe 0 when desktop version is encountered */}
-                <img className="-mt-16 mb-4 w-20 h-20 s sm:h-24 sm:w-24 sm:my-0" src={logo} alt={company}/>
+                <img className="-mt-16 mb-4 w-20 h-20 s sm:h-24 sm:w-24 sm:my-0" src={companyLogo} alt={companyLogo}/>
             </div>
             <div className='flex flex-col justify-between ml-4'>
                 <h3 className='font-bold text-blue-500'>
                     {company}
                     {/* if isNew and featured property exists than create a little span for each one of them */}
-                    {isNew && (<span className='text-blue-100 bg-blue-500 font-bold 
+                    {today === postedAtDate && (<span className='text-blue-100 bg-blue-500 font-bold 
                  m-2  rounded-full py-1 px-2'>New</span>)}
                     {featured && (<span className='text-white bg-gray-800 font-bold 
                 py-1 px-2 rounded-full'>Featured</span>)}
@@ -108,10 +114,28 @@ handleTagClick
     );
 }
 
+const mapStateToProps = (state) => {
+    const profile = state.firebase.profile;
+    const companyId = profile.company;
+    return {
+        profile: profile,
+        companyId: companyId,
+        companyData: state.firebase.ordered.companies || state.company.companies
+    };
+};
+
 const mapDispatchToProps = (dispatch) => {
     return{
         deletePost: (post) => dispatch(deletePost(post))
     };
 }
 
-export default connect(null, mapDispatchToProps)(JobBoardComponent);
+export default compose(
+connect(mapStateToProps, mapDispatchToProps),
+firestoreConnect( (props) => [
+    {
+        collection: 'companies',
+        doc: props.companyId,
+    }, 
+ ])
+)(JobBoardComponent);

@@ -15,7 +15,7 @@ const JobPost = (props) => {
     if(!auth.uid){
         return <Redirect to='/signin' />;
     }else if(post) {
-    const { company, title, location, contract, apply, postedAt, role, cassification, technologies, tools, description, responsabilities } = post[0];
+    const { company, title, location, contract, apply, postedAt, role, cassification, technologies, tools, companyLogo, description, responsabilities } = post[0];
     return (
             <div>
                 {/* Job title and description div */}
@@ -48,9 +48,9 @@ const JobPost = (props) => {
                         {/*Image div with Company Logo  */}
                         <div className='border-b-2 py-4'>
                             <div className="flex justify-center">
-                                <img className='my-8 mx-32' src={jobLogo}/>
+                                <img className="h-24 w-24 object-contain rounded-full border border-1" src={companyLogo}/>
                             </div>
-                            <div className="flex justify-center">
+                            <div className="flex justify-center mt-1">
                                 <span className='font-semibold px-2'> {company} </span>
                             </div>
                         </div>
@@ -131,10 +131,8 @@ const JobPost = (props) => {
                                 </div>
                                 <span className='ml-7 text-gray-400'>{role}</span>
                             </div>
-                            <div className='mb-6'>
-                                <button type="submit" className="w-64 mx-8 py-3 mt-6 font-medium tracking-widest rounded-md text-white uppercase bg-blue-800 shadow-lg focus:outline-none hover:bg-gray-900 hover:shadow-none">
-                                Apply now
-                                </button>
+                            <div className='mt-44 mb-4'>
+                        
                             </div>
                         </div>
                     </div>
