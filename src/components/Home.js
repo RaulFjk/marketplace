@@ -15,7 +15,8 @@ class Home extends React.Component {
 
     state = {
         currentPage: 1,
-        postsPerPage: 5
+        postsPerPage: 6,
+        showFilterBar: true
     }
     
     paginate = (pageNumber) =>{
@@ -29,20 +30,17 @@ class Home extends React.Component {
         // if(filters.includes(tag)) return;
     }
         
-    //     setFilters([...filters, tag]);
-    // }
-
-    // handleFilterClick = (passedFilter) => {
-    //     setFilters(filters.filter((f) => f !== passedFilter ));
-
-    // }
-
-    // clearFilters = () => {
-    //     setFilters([]);
-    // }
-
-    // filteredJobs = jobs.filter(filterFunc);
-
+    handleFilterBar = (e) => {
+        if(this.state.showFilterBar === true){
+            this.setState({
+                showFilterBar: false
+            });
+        }else{
+            this.setState({
+                showFilterBar: true
+            });
+        }
+    }
     handleFilterClassification = (classification) => {
         this.props.filterPostByClassifications(this.props.posts, this.props.filteredPosts, classification);
     }
@@ -67,18 +65,18 @@ class Home extends React.Component {
         if (!auth.uid){
             return <Redirect to ='/signin' />;
         }
-        console.log(filteredPosts);
+       
 
         if(filteredPosts){
             if(classificationFilter || technologiesFilter || searchFilter)
             return(
                 <main>
-                   <div className="sticky top-20 z-40 ">
+                   <div className="">
                     <FilterBar filterClassification={this.handleFilterClassification} filterTechnologies={this.handleFilterTechnologies} searchPosts={this.handleSearchPosts} />
                     </div>
                     <div className='flex ml-10 z-30'>
-                        <span className='text-3xl text-red-500 py-4 mr-1'>All</span>
-                        <span className='text-3xl text-gray-700 py-4 '>Posts</span>
+                        <span className='text-3xl text-red-600 py-4 mr-1 font-bold'>Found</span>
+                        <span className='text-3xl text-blue-400 font-bold py-4 '>Posts</span>
                     </div>
                     {/* Tags Filter above the jobs ---------->>>> must be adapted <<<<<<<<<<<<<<<<<------------------------- */}
                     {filteredPosts.length === 0 ? (
@@ -100,9 +98,10 @@ class Home extends React.Component {
         }
         return(
             <main>
-                <div className="sticky top-20">
+                {this.state.showFilterBar === true &&
+                <div className="">
                     <FilterBar postsNumber={postsNumber} filterClassification={this.handleFilterClassification} filterTechnologies={this.handleFilterTechnologies} searchPosts={this.handleSearchPosts}  />
-                </div>
+                </div> }
                 <div className='flex ml-10'>
                     <span className='text-3xl text-red-600 py-4 mr-1 font-bold'>All</span>
                     <span className='text-3xl text-blue-400 font-bold py-4 '>Posts</span>
@@ -129,7 +128,7 @@ class Home extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-//    console.log(state);
+
     return {
         posts: state.firestore.ordered.posts || state.post.posts,
         auth: state.firebase.auth,
@@ -150,6 +149,8 @@ const mapDispatchToProps = (dispatch) => {
 
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
-    firestoreConnect(["posts"])
+    firestoreConnect([
+     { collection: "posts", orderBy: ['postedAt', 'desc']}
+    ])
 )(Home);
 

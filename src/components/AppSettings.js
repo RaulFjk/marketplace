@@ -144,7 +144,6 @@ class AppSettings extends React.Component{
     
     render() {
         const { auth, categories, classifications, technologies, tools } = this.props;
-        console.log(this.state);
         if(!auth.uid) return <Redirect to='/signin' />
 
         return(

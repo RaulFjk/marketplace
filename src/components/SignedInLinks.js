@@ -116,8 +116,8 @@ class SignedInLinks extends React.Component {
                         </li>
                         {profile.role === 'student' && 
                         <li>
-                            <button class="relative z-10 block rounded-md bg-gradient-to-r from-green-400 to-blue-500 ... p-2 focus:outline-none" onClick={() => this.handleNotification()}>
-                                <svg class="h-5 w-5 text-red-800" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <button className="transition duration-500 ease-in-out relative z-10 block rounded-md bg-gradient-to-r from-green-400 to-blue-500 ... p-2 focus:outline-none transform hover:-translate-y-1 hover:scale-110 ..." onClick={() => this.handleNotification()}>
+                                <svg className="h-5 w-5 text-red-800" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                 <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
                                 </svg>
                             </button>
@@ -127,8 +127,8 @@ class SignedInLinks extends React.Component {
                                 </div> ) } 
                         </li> }
                         <li>
-                                <button className="rounded-full bg-gradient-to-r from-green-400 to-blue-500 ... text-xl p-3 mr-4 ml-2 cursor-pointer focus:outline-none"  >
-                                    {profile.initials}
+                                <button className="rounded-full bg-gradient-to-r from-green-400 to-blue-500 ... text-xl p-4  mr-4 ml-2 text-center cursor-pointer focus:outline-none"  >
+                                   <span className="p-1"> {profile.initials} </span>
                                 </button>
                                 {/* <div x-show="dropdownOpen"  class="fixed inset-0 h-full w-full z-10"></div> */}
                                 {this.state.open === true && (
@@ -169,5 +169,5 @@ const mapDispatchToProps = (dispatch) => {
 export default compose(
  connect(mapStateToProps,mapDispatchToProps),
  firestoreConnect((props) => [
-     { collection: "notifications", limit:4 }])
+     { collection: "notifications", limit:4, orderBy: ['time', 'desc'] }])
  )(SignedInLinks);

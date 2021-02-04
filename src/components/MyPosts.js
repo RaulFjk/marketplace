@@ -33,11 +33,11 @@ class MyPosts extends React.Component{
         return(
             <div>
                 <div className='flex ml-10'>
-                    <span className='text-3xl text-red-500 py-4 mr-1'>My</span>
-                    <span className='text-3xl text-gray-700 py-4 '>Posts</span>
+                    <span className='text-3xl text-red-600 py-4 mr-1 font-bold'>My</span>
+                    <span className='text-3xl text-blue-400 font-bold py-4 '>Posts</span>
                 </div>
                 {currentPosts.length === 0 ? (
-                    <p className="mx-4">It looks like you didn't pos any jobs yet...</p>
+                    <p className="mx-4">It looks like you didn't posy anything yet...</p>
                     ) : (
                     currentPosts.map( post => (
                      //   <Link to={'/post/' + post.id} key={post.id}>

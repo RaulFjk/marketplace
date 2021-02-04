@@ -53,7 +53,7 @@ handleTagClick
     const today = new Date().getDay();
     const postedAtDate= moment(postedAt.toDate()).day();
    
-    console.log(companyData);
+  
     return ( 
         // If job is featured then it should have a blue margin on the left border side
         <div className={`flex flex-col bg-white shadow-xl border-gray-200 my-16 mx-10 p-6 rounded hover:bg-gray-100

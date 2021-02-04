@@ -66,7 +66,7 @@ class EditCompany extends React.Component{
         const { auth, companies } = this.props;
         const { description, headquarters, industry, name, size, website} = companies.length !== 0 ? companies[0]: {};
 
-        console.log(this.state);
+  
         if(!auth.uid) return <Redirect to='/signin' />
 
         return(
