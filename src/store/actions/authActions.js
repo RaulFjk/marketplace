@@ -18,6 +18,7 @@ export const signOut = () => {
         const firebase = getFirebase();
 
         firebase.auth().signOut().then(() => {
+            dispatch({type: 'CLEAR_FILTERED_LIST'});
             dispatch({ type: 'SIGNOUT_SUCCESS' })
         });
     };

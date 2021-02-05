@@ -126,10 +126,11 @@ class SignedInLinks extends React.Component {
                                     <Notifications notifications={notifications} /> 
                                 </div> ) } 
                         </li> }
-                        <li>
-                                <button className="rounded-full bg-gradient-to-r from-green-400 to-blue-500 ... text-xl p-4  mr-4 ml-2 text-center cursor-pointer focus:outline-none"  >
-                                   <span className="p-1"> {profile.initials} </span>
-                                </button>
+                        <li>  
+                                <button className="rounded-full bg-gradient-to-r from-green-400 to-blue-500 ... text-xl p-2 mr-4 ml-2 text-center cursor-pointer focus:outline-none h-12 w-12"  >
+                                {/* <div className="rounded-full h-24 w-24 flex items-center justify-center... bg-gradient-to-r from-green-400 to-blue-500 ..."> */}
+                                 {profile.initials}
+                                </button> 
                                 {/* <div x-show="dropdownOpen"  class="fixed inset-0 h-full w-full z-10"></div> */}
                                 {this.state.open === true && (
                                 <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-50">

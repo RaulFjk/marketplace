@@ -246,7 +246,7 @@ class CreatePost extends React.Component {
                                     <Multiselect ref={this.multiselectRef} style={styles} options={this.state.dataTools} placeholder="Choose one/more tools" displayValue="name" onSelect={this.handleAddTools} onRemove={this.handleAddTools} />
                                 </div>
                                 <div className='mt-2'>
-                                    <label className='block text-lg font-semibold  text-gray-00'>Responsabilites</label>
+                                    <label className='block text-lg font-semibold  text-gray-00'>Responsibilities</label>
                                     <textarea className='w-full h-44 px-2 py-1 text-gray-700 bg-gray-200 hover:bg-gray-100 rounded' cols="10" rows="20"  autoComplete="off" id="responsabilities" onChange={this.handleChange} placeholder='Responsabilities' />
                                 </div>
                                 <div className='mt-2'>

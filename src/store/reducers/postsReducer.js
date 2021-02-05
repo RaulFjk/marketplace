@@ -45,6 +45,12 @@ const postsReducer = (state = initState, action) => {
                 filteredPosts: action.payload.filteredPosts,
                 searchFilter: action.payload.searchTerm
                  };
+        case 'CLEAR_FILTERED_LIST':
+            return {
+                ...state,
+                filteredPosts: [],
+                searchFilter: ''
+            }
         default:
             return state;
     }

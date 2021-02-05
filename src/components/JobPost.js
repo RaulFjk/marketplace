@@ -10,12 +10,13 @@ import jobLogo from '../insure.svg'
 
 const JobPost = (props) => {
 
-    const { post, auth } = props;
+    const { post, auth, classification } = props;
 
     if(!auth.uid){
         return <Redirect to='/signin' />;
-    }else if(post) {
+    }else if(post && classification) {
     const { company, title, location, contract, apply, postedAt, role, cassification, technologies, tools, companyLogo, description, responsabilities } = post[0];
+    const {name} = classification[0];
     return (
             <div>
                 {/* Job title and description div */}
@@ -42,7 +43,7 @@ const JobPost = (props) => {
                     <div className='shadow-xl ml-10 mr-20 rounded-lg border-2 h-auto mb-4 mt-16'>
                         <div className='border-b-2 flex justify-center' >
                             <div className='py-4'>
-                                <span className='text-xl font-semibold'>Job Overview</span>
+                                <span className='text-xl font-semibold'>Post Overview</span>
                             </div>
                         </div>
                         {/*Image div with Company Logo  */}
@@ -131,6 +132,24 @@ const JobPost = (props) => {
                                 </div>
                                 <span className='ml-7 text-gray-400'>{role}</span>
                             </div>
+                            <div className='my-6'>
+                                <div className='flex'>
+                                    <svg viewBox="0 0 24 24"
+                                        width="24"
+                                        height="24"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        fill="none"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        className="h-5 w-5">               
+                                    <path fillRule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clipRule="evenodd" />
+                                    <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
+                                    </svg>
+                                    <h1 className='ml-2 font-semibold'>Classification</h1>
+                                </div>
+                                <span className='ml-7 text-gray-400'>{name}</span>
+                            </div>
                             <div className='mt-44 mb-4'>
                         
                             </div>
@@ -155,11 +174,20 @@ const mapStateToProps = (state, ownProps) => {
     const pathname = ownProps.location.pathname;
     const splitPath = pathname.split('/');
     const postId = splitPath[2];
-    
+
+    const classification = state.firestore.ordered.posts ? (state.firestore.ordered.posts) : ([]);
+    var classificationId; 
+    if(classification.length !== 0){
+        classificationId = classification[0].classification;
+    }else{
+        classificationId = '';
+    }
     return {
         postId : postId,
         post: state.firestore.ordered.posts,
-        auth: state.firebase.auth
+        auth: state.firebase.auth,
+        classificationId: classificationId,
+        classification: state.firestore.ordered.classifications
     }
 }
 
@@ -169,7 +197,11 @@ export default compose(
         {
             collection: 'posts',
             doc: props.postId
-        }
+        },
+        {
+            collection: 'classifications',
+            doc: props.classificationId  
+          }
     
     ])
 )(JobPost);

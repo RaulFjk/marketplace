@@ -25,6 +25,25 @@ class Home extends React.Component {
         });
     }
 
+    paginatePrevious = () => {
+        const currentPage = this.state.currentPage;
+        const pageNumber = currentPage - 1;
+        if(this.state.currentPage !== 1){
+            this.setState({
+                currentPage: pageNumber
+            }) }
+    }
+
+    paginateNext = (totalPosts) => {
+        const lastPage =  Math.ceil(totalPosts / this.state.postsPerPage ); 
+        const currentPage = this.state.currentPage;
+        const pageNumber = currentPage + 1;
+        if (this.state.currentPage < lastPage)
+            this.setState({
+                currentPage: pageNumber
+            })
+    }
+
     handleTagClick = (tag) => {
         // // avoid re-adding the tag
         // if(filters.includes(tag)) return;
@@ -120,8 +139,13 @@ class Home extends React.Component {
                     </Link>
                 ))
                 )
-            }
-                <Pagination postsPerPage={this.state.postsPerPage} totalPosts={posts.length} paginate={this.paginate} />
+            }   <div className="mt-10">
+                <Pagination postsPerPage={this.state.postsPerPage}
+                 totalPosts={posts.length}
+                 paginate={this.paginate}
+                 paginatePrevious={this.paginatePrevious}
+                 paginateNext={this.paginateNext}
+                /></div>
             </main>
             );
         }

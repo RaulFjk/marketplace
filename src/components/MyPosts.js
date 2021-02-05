@@ -19,6 +19,25 @@ class MyPosts extends React.Component{
         });
     }
 
+    paginatePrevious = () => {
+        const currentPage = this.state.currentPage;
+        const pageNumber = currentPage - 1;
+        if(this.state.currentPage !== 1){
+            this.setState({
+                currentPage: pageNumber
+            }) }
+    }
+
+    paginateNext = (totalPosts) => {
+        const lastPage =  Math.ceil(totalPosts / this.state.postsPerPage ); 
+        const currentPage = this.state.currentPage;
+        const pageNumber = currentPage + 1;
+        if (this.state.currentPage < lastPage)
+            this.setState({
+                currentPage: pageNumber
+            })
+    }
+
     render() {
 
         const{ posts, auth } = this.props;
@@ -37,7 +56,7 @@ class MyPosts extends React.Component{
                     <span className='text-3xl text-blue-400 font-bold py-4 '>Posts</span>
                 </div>
                 {currentPosts.length === 0 ? (
-                    <p className="mx-4">It looks like you didn't posy anything yet...</p>
+                    <p className="mx-4">It looks like you didn't post anything yet...</p>
                     ) : (
                     currentPosts.map( post => (
                      //   <Link to={'/post/' + post.id} key={post.id}>
@@ -50,7 +69,12 @@ class MyPosts extends React.Component{
                     ))
                     )
                 }
-                <Pagination postsPerPage={this.state.postsPerPage} totalPosts={posts.length} paginate={this.paginate} />
+                <div className="mt-10">
+                <Pagination postsPerPage={this.state.postsPerPage} 
+                totalPosts={posts.length}
+                 paginate={this.paginate}
+                 paginatePrevious={this.paginatePrevious}
+                 paginateNext={this.paginateNext} /> </div>
             </div> 
         );
     }

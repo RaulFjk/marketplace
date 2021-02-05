@@ -121,6 +121,7 @@ const mapStateToProps = (state) => {
         profile: profile,
         companyId: companyId,
         companyData: state.firebase.ordered.companies || state.company.companies
+        
     };
 };
 
@@ -136,6 +137,7 @@ firestoreConnect( (props) => [
     {
         collection: 'companies',
         doc: props.companyId,
-    }, 
+    }
+   
  ])
 )(JobBoardComponent);
